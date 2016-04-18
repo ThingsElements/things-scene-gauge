@@ -11,9 +11,4 @@
 ```$ polyserve```
 
 ## 브라우저에서 확인한다.
-* test
-$ npm run test
-
-* sample service
-$ npm run start
-http://localhost:8080/components/things-scene-gauge/demo/index.html
+```http://localhost:8080/components/things-scene-gauge/demo/index.html```
