@@ -1,0 +1,76 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>things-scene-gauge Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+
+    <link rel="import" href="../../things-scene-viewer/things-scene-viewer.html">
+    <link rel="import" href="./things-scene-gauge.html">
+
+    <style is="custom-style">
+
+    @font-face {
+      font-family: "Bitstream Vera Serif Bold";
+      src: url("fonts/VeraSeBd.ttf");
+    }
+
+    things-scene-viewer {
+      display: block;
+      width: 200px;
+      height: 200px;
+    }
+    </style>
+  </head>
+  <body unresolved>
+
+    <template is="dom-bind" id="app">
+      <p>An example of <code>&lt;things-scene-gauge&gt;</code>:</p>
+
+      <things-scene-viewer id='scene' model='{{model}}'>
+      </things-scene-viewer>
+
+      <button id="change">Change Value</button>
+
+    </template>
+
+    <script>
+      window.addEventListener('WebComponentsReady', function(e) {
+        var app = document.querySelector('#app')
+
+        app.$.change.addEventListener('click', function() {
+          var viewer = app.$.scene
+          viewer.findAll('gauge-half-circle')[0].set('value', Math.round(Math.random() * 100))
+        })
+
+        app.model = {
+          components: [{
+            type: 'gauge-half-circle',
+            cx: 200,
+            cy: 200,
+            rx: 150,
+            ry: 150,
+            fontSize: 80,
+            strokeStyle: '#552555',
+            fontColor: '#FF0000',
+            lineWidth: 30,
+            value: 75,
+            alpha: 0.8,
+            text: "#{value}%"
+          }]
+        }
+      });
+    </script>
+
+  </body>
+</html>
