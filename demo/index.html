@@ -37,7 +37,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <template is="dom-bind" id="app">
       <p>An example of <code>&lt;things-scene-gauge&gt;</code>:</p>
 
-      <things-scene-viewer id='scene' model='{{model}}'>
+      <things-scene-viewer id='scene1' model='{{model1}}'>
+      </things-scene-viewer>
+
+      <things-scene-viewer id='scene2' model='{{model2}}'>
       </things-scene-viewer>
 
       <button id="change">Change Value</button>
@@ -49,13 +52,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var app = document.querySelector('#app')
 
         app.$.change.addEventListener('click', function() {
-          var viewer = app.$.scene
+          var viewer = app.$.scene1
           viewer.findAll('gauge-half-circle')[0].set('value', Math.round(Math.random() * 100))
         })
 
-        app.model = {
+        app.model1 = {
           components: [{
             type: 'gauge-half-circle',
+            cx: 200,
+            cy: 200,
+            rx: 150,
+            ry: 150,
+            fontSize: 80,
+            strokeStyle: '#552555',
+            fontColor: '#FF0000',
+            lineWidth: 30,
+            value: 75,
+            alpha: 0.8,
+            text: "#{value}%"
+          }]
+        }
+
+        app.model2 = {
+          components: [{
+            type: 'gauge-bar',
             cx: 200,
             cy: 200,
             rx: 150,

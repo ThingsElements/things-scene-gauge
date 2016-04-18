@@ -1,4 +1,4 @@
-export default class GaugeHalfCircle extends scene.Ellipse {
+export default class GaugeBar extends scene.Ellipse {
 
   _draw(context) {
     var {
@@ -31,4 +31,4 @@ export default class GaugeHalfCircle extends scene.Ellipse {
   }
 }
 
-scene.Component.register('gauge-half-circle', GaugeHalfCircle)
+scene.Component.register('gauge-bar', GaugeBar)
