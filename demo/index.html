@@ -16,6 +16,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
 
     <link rel="import" href="../../things-scene-viewer/things-scene-viewer.html">
+    <link rel="import" href="../../things-scene-viewer/things-scene-layer.html">
+    <link rel="import" href="../../things-scene-viewer/things-scene-handler.html">
+
     <link rel="import" href="./things-scene-gauge.html">
 
     <style is="custom-style">
@@ -27,8 +30,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     things-scene-viewer {
       display: block;
-      width: 200px;
-      height: 200px;
+      width: 640px;
+      height: 480px;
     }
     </style>
   </head>
@@ -37,10 +40,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <template is="dom-bind" id="app">
       <p>An example of <code>&lt;things-scene-gauge&gt;</code>:</p>
 
-      <things-scene-viewer id='scene1' model='{{model1}}'>
-      </things-scene-viewer>
-
-      <things-scene-viewer id='scene2' model='{{model2}}'>
+      <things-scene-viewer id='scene' model='{{model}}' mode="1">
+        <things-scene-layer type="selection-layer"></things-scene-layer>
+        <things-scene-layer type="modeling-layer"></things-scene-layer>
+        <things-scene-handler type="text-editor"></things-scene-handler>
+        <things-scene-handler type="move-handler"></things-scene-handler>
       </things-scene-viewer>
 
       <button id="change">Change Value</button>
@@ -52,45 +56,86 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var app = document.querySelector('#app')
 
         app.$.change.addEventListener('click', function() {
-          var viewer = app.$.scene1
-          viewer.findAll('gauge-half-circle')[0].set('value', Math.round(Math.random() * 100))
+          var viewer = app.$.scene
+          viewer.findAll('gauge-half-circle')[0].set('value', 30 + Math.round(Math.random() * 70))
         })
 
-        app.model1 = {
+        app.model = {
           components: [{
             type: 'gauge-half-circle',
-            cx: 200,
-            cy: 200,
-            rx: 150,
-            ry: 150,
+            cx: 300,
+            cy: 300,
+            rx: 200,
+            ry: 200,
             fontSize: 80,
-            strokeStyle: '#552555',
+            fillStyle: '#ff00ff',
+            // strokeStyle: '#552555',
             fontColor: '#FF0000',
-            lineWidth: 30,
-            value: 75,
+            lineWidth: 5,
             alpha: 0.8,
-            text: "#{value}%"
-          }]
-        }
-
-        app.model2 = {
-          components: [{
-            type: 'gauge-bar',
-            cx: 200,
-            cy: 200,
-            rx: 150,
-            ry: 150,
+            value: 65,
+            startValue: 00,
+            endValue: 100,
+            step: 7,
+            fontColor: 'black',
+            showEndText: false,
+            textFillStyle: 'blue',
+            needleFillStyle: 'red',
+            needleSize: 5
+            // text: "#{value}%"
+          }, {
+            type: 'gauge-half-circle',
+            cx: 900,
+            cy: 300,
+            rx: 100,
+            ry: 200,
             fontSize: 80,
-            strokeStyle: '#552555',
+            fillStyle: '#ff00ff',
+            // strokeStyle: '#552555',
             fontColor: '#FF0000',
-            lineWidth: 30,
-            value: 75,
+            lineWidth: 5,
             alpha: 0.8,
-            text: "#{value}%"
+            value: 65,
+            startValue: 00,
+            endValue: 100,
+            step: 7,
+            fontColor: 'black',
+            showEndText: false,
+            // text: "#{value}%"
+          }, {
+            type: 'gauge-half-circle',
+            cx: 900,
+            cy: 700,
+            rx: 200,
+            ry: 100,
+            fontSize: 80,
+            fillStyle: '#ff00ff',
+            // strokeStyle: '#552555',
+            fontColor: '#FF0000',
+            lineWidth: 5,
+            alpha: 0.8,
+            value: 65,
+            startValue: 00,
+            endValue: 220,
+            step: 20,
+            fontColor: 'black',
+            fillStep:[
+              { start:0,
+                end: 30,
+                fillStyle: '#00ff00'},
+              { start: 30,
+                end: 100,
+                fillStyle: '#ffff00'},
+              { start: 100,
+                end: 220,
+                fillStyle: '#ff0000'}],
+            textFillStyle: 'blue',
+            stepFillStyle: 'gray',
+            needleFillStyle: 'red',
+            // text: "#{value}%"
           }]
         }
       });
     </script>
-
   </body>
 </html>
