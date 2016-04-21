@@ -57,12 +57,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         app.$.change.addEventListener('click', function() {
           var viewer = app.$.scene
-          viewer.findAll('gauge-half-circle')[0].set('value', 30 + Math.round(Math.random() * 70))
+          viewer.findAll('gauge-circle')[0].set('value', 30 + Math.round(Math.random() * 70))
         })
 
         app.model = {
           components: [{
-            type: 'gauge-half-circle',
+            type: 'gauge-circle',
             cx: 300,
             cy: 300,
             rx: 200,
@@ -70,7 +70,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             fontSize: 80,
             fillStyle: '#ff00ff',
             // strokeStyle: '#552555',
-            fontColor: '#FF0000',
             lineWidth: 5,
             alpha: 0.8,
             value: 65,
@@ -81,17 +80,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             showEndText: false,
             textFillStyle: 'blue',
             needleFillStyle: 'red',
-            needleSize: 5
+            stepFillStyle: 'black',
+            needleSize: 5,
+            subStep: 2,
+            ratio: 77,
+            angle: 270,
             // text: "#{value}%"
           }, {
-            type: 'gauge-half-circle',
+            type: 'gauge-circle',
             cx: 900,
             cy: 300,
             rx: 100,
             ry: 200,
             fontSize: 80,
             fillStyle: '#ff00ff',
-            // strokeStyle: '#552555',
+            strokeStyle: '#552555',
             fontColor: '#FF0000',
             lineWidth: 5,
             alpha: 0.8,
@@ -99,11 +102,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             startValue: 00,
             endValue: 100,
             step: 7,
+            subStep:1,
             fontColor: 'black',
             showEndText: false,
+            ratio: 80,
+            angle: 180,
             // text: "#{value}%"
           }, {
-            type: 'gauge-half-circle',
+            type: 'gauge-circle',
             cx: 900,
             cy: 700,
             rx: 200,
@@ -113,25 +119,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             // strokeStyle: '#552555',
             fontColor: '#FF0000',
             lineWidth: 5,
-            alpha: 0.8,
             value: 65,
             startValue: 00,
             endValue: 220,
             step: 20,
             fontColor: 'black',
             fillStep:[
-              { start:0,
-                end: 30,
+              { value:30,
                 fillStyle: '#00ff00'},
-              { start: 30,
-                end: 100,
+              { value: 100,
                 fillStyle: '#ffff00'},
-              { start: 100,
-                end: 220,
+              { value: 220,
                 fillStyle: '#ff0000'}],
             textFillStyle: 'blue',
             stepFillStyle: 'gray',
             needleFillStyle: 'red',
+            ratio: 80,
+            angle: 270,
+            // text: "#{value}%"
+          }, {
+            type: 'gauge-circle',
+            cx: 300,
+            cy: 700,
+            rx: 200,
+            ry: 200,
+            fontSize: 80,
+            fillStyle: '#ff00ff',
+            // strokeStyle: '#552555',
+            fontColor: '#FF0000',
+            lineWidth: 5,
+            value: 65,
+            startValue: 00,
+            endValue: 220,
+            step: 20,
+            fontColor: 'black',
+            fillStep:[
+              { value:30,
+                fillStyle: '#00ff00'},
+              { value: 100,
+                fillStyle: '#ffff00'},
+              { value: 220,
+                fillStyle: '#ff0000'}],
+            textFillStyle: 'blue',
+            stepFillStyle: 'gray',
+            needleFillStyle: 'red',
+            ratio: 70,
+            angle: 180,
             // text: "#{value}%"
           }]
         }
