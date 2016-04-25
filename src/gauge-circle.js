@@ -195,7 +195,7 @@ export default class GaugeCircle extends scene.Donut {
       }
     }
 
-    context.scale(1, 1)
+    context.scale(1, rx / ry)
     context.translate(-cx, -cy)
   }
 
