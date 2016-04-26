@@ -1,17 +1,17 @@
-function drawStepLine(context, ang, rx, needleSize) {
+function drawStepLine(context, ang, rx, stepNeedleSize) {
   context.rotate(ang)
   context.translate(0, - rx)
 
-  context.fillRect(0, -rx * 0.14, needleSize, rx * 0.175)
+  context.fillRect(0, -rx * 0.14, stepNeedleSize, rx * 0.175)
   context.translate(0, rx)
   context.rotate(-ang)
 }
 
-function drawSubStepLine(context, ang, rx, needleSize) {
+function drawSubStepLine(context, ang, rx, stepNeedleSize) {
   context.rotate(ang)
   context.translate(0, - rx)
 
-  context.fillRect(0, -rx * 0.04, needleSize, rx * 0.075)
+  context.fillRect(0, -rx * 0.04, stepNeedleSize, rx * 0.075)
   context.translate(0, rx)
   context.rotate(-ang)
 }
@@ -41,8 +41,8 @@ export default class GaugeCircle extends scene.Donut {
       angle = 270,
       fontColor = 'black',
       showStepText = true,
-      showStartText = true,
-      showEndText = true,
+      showStartValue = true,
+      showEndValue = true,
       showStepLine = true,
       showSubStep = true,
       fillStep,   // 스텝별 각각 다른 색
@@ -50,7 +50,7 @@ export default class GaugeCircle extends scene.Donut {
       textFillStyle = 'black',
       needleFillStyle = 'black',
       innerCircleFillStyle = 'gray',
-      needleSize = 2,
+      stepNeedleSize = 2,
       stepFillStyle,
       subTextSize,
       cx, cy, rx, ry, ratio
@@ -138,15 +138,15 @@ export default class GaugeCircle extends scene.Donut {
       let count = (endValue - startValue) / step
 
       // Draw StartValue 
-      drawStepLine(context, Math.PI * (startAngle + 0.5), rx * 0.8, needleSize) // 원을 그릴때 PI는 45도 부터 그리지만 angle은 0도부터 틀어서 + 0.5도를 곱해줘야함
+      drawStepLine(context, Math.PI * (startAngle + 0.5), rx * 0.8, stepNeedleSize) // 원을 그릴때 PI는 45도 부터 그리지만 angle은 0도부터 틀어서 + 0.5도를 곱해줘야함
       // Draw StepValue
       for(let num = 1; num < count; num++){
         let ang = Math.PI * (circleSize / count * num + startAngle + 0.5)
 
-        drawStepLine(context, ang, rx * 0.8, needleSize)
+        drawStepLine(context, ang, rx * 0.8, stepNeedleSize)
       }
       // Draw EndValue
-      drawStepLine(context, Math.PI * (endAngle + 0.5), rx * 0.8, needleSize)
+      drawStepLine(context, Math.PI * (endAngle + 0.5), rx * 0.8, stepNeedleSize)
     }
 
 
@@ -155,7 +155,7 @@ export default class GaugeCircle extends scene.Donut {
       let count = endValue - startValue
 
       // Draw StartValue
-      drawSubStepLine(context, Math.PI * (startAngle + 0.5), rx * 0.8, needleSize)
+      drawSubStepLine(context, Math.PI * (startAngle + 0.5), rx * 0.8, stepNeedleSize)
       
       // Draw StepValue
       for(let num = 1; num < count; num++){
@@ -164,10 +164,10 @@ export default class GaugeCircle extends scene.Donut {
         }
         let ang = Math.PI * (circleSize / count * num + startAngle + 0.5)
 
-        drawSubStepLine(context, ang, rx * 0.8, needleSize)
+        drawSubStepLine(context, ang, rx * 0.8, stepNeedleSize)
       }
       // Draw EndValue
-      drawSubStepLine(context, Math.PI * (endAngle + 0.5), rx * 0.8, needleSize)
+      drawSubStepLine(context, Math.PI * (endAngle + 0.5), rx * 0.8, stepNeedleSize)
     }
 
 
@@ -176,11 +176,11 @@ export default class GaugeCircle extends scene.Donut {
     context.font = rx * subTextSize / 50 + "px arial"
     context.textBaseline = "middle"
     context.textAlign = "center"
-    if(showStartText){  // Draw StartText
+    if(showStartValue){  // Draw StartText
       drawStepText(context, startValue, Math.PI * (startAngle + 0.5), rx * 0.8)
     }
 
-    if(showEndText){   // Draw EndText
+    if(showEndValue){   // Draw EndText
       drawStepText(context, endValue, Math.PI * (endAngle + 0.5), rx * 0.8)
     }
 
