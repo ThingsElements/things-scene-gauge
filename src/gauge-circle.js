@@ -107,7 +107,7 @@ export default class GaugeCircle extends scene.Donut {
 
     ////  바늘 그리기  ////
     value = Math.max(Math.min(value, endValue), startValue)   // 값이 startValue보다 작을 수 없고, endValue보다 클 수 없음.
-    let ang = Math.PI * (circleSize * (value + startValue) / (endValue - startValue) + startAngle - 0.5)
+    let ang = Math.PI * (circleSize * value / endValue + startAngle - 0.5)
 
     context.rotate(ang)
 
