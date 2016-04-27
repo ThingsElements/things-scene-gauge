@@ -85,9 +85,9 @@ export default class GaugeCircle extends scene.Donut {
       let beforeValue = startValue
       fillStep.forEach(v =>{
         context.beginPath()
-        v.value = Math.max(Math.min(v.value, endValue), startValue)   // 범위의 최소값은 startValue, 최대값은 endValue가 됨
+        let value = Math.max(Math.min(v.value, endValue), startValue)   // v.value 범위의 최소값은 startValue, 최대값은 endValue가 됨
         let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / (endValue - startValue))
-        let endStepAngle = Math.PI * (startAngle + circleSize * v.value / (endValue - startValue))
+        let endStepAngle = Math.PI * (startAngle + circleSize * value / (endValue - startValue))
 
         context.moveTo(0, 0)
         context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, startStepAngle, endStepAngle)
