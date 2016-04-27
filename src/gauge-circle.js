@@ -62,8 +62,8 @@ export default class GaugeCircle extends scene.Donut {
     const ryRatio = ry / 100 * ratio  // 원 안에 지워지는 비율을 계산한 ry - ratio의 비율에 따라 크기가 변함
     const circleSize = (endAngle - startAngle) / 180  // 원의 총 길이. - PI * 2가 원이므로 (360도 = 2, 180도 = 1)
 
-    startAngle = startAngle * RADIAN + 0.5  //  맨 위쪽을 중심으로 앵글의 범위에 따라 왼쪽으로 넓어짐
-    endAngle   = endAngle * RADIAN + 0.5    //  맨 위쪽을 중심으로 앵글의 범위에 따라 오른쪽으로 넓어짐
+    startAngle = startAngle * RADIAN + 0.5  // 맨 위쪽을 중심으로 앵글의 범위에 따라 왼쪽으로 넓어짐
+    endAngle   = endAngle * RADIAN + 0.5    // 맨 위쪽을 중심으로 앵글의 범위에 따라 오른쪽으로 넓어짐
 
     context.translate(cx, cy)
 
@@ -98,7 +98,7 @@ export default class GaugeCircle extends scene.Donut {
         context.fillStyle = v.fillStyle
         context.fill()
 
-        beforeValue = v.value
+        beforeValue = value
       })
     }
 
