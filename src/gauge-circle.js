@@ -38,7 +38,8 @@ export default class GaugeCircle extends scene.Donut {
       endValue,
       step,
       subStep,
-      angle = 270,
+      startAngle = 0,
+      endAngle = 180,
       fontColor = 'black',
       showStepText = true,
       showStartValue = true,
@@ -56,12 +57,13 @@ export default class GaugeCircle extends scene.Donut {
       cx, cy, rx, ry, ratio
     } = this.model
 
+    const RADIAN = 0.0174533 / Math.PI
     const rxRatio = rx / 100 * ratio  // 원 안에 지워지는 비율을 계산한 rx - ratio의 비율에 따라 크기가 변함
     const ryRatio = ry / 100 * ratio  // 원 안에 지워지는 비율을 계산한 ry - ratio의 비율에 따라 크기가 변함
-    const startAngle = (1.5 - angle / 360)  //  맨 위쪽을 중심으로 앵글의 범위에 따라 왼쪽으로 넓어짐
-    const endAngle   = (1.5 + angle / 360)  //  맨 위쪽을 중심으로 앵글의 범위에 따라 오른쪽으로 넓어짐
-    const circleSize = angle / 180     // 원의 총 길이. - PI * 2가 원이므로 (360도 = 2, 180도 = 1)
+    const circleSize = (endAngle - startAngle) / 180  // 원의 총 길이. - PI * 2가 원이므로 (360도 = 2, 180도 = 1)
 
+    startAngle = startAngle * RADIAN + 0.5  //  맨 위쪽을 중심으로 앵글의 범위에 따라 왼쪽으로 넓어짐
+    endAngle   = endAngle * RADIAN + 0.5    //  맨 위쪽을 중심으로 앵글의 범위에 따라 오른쪽으로 넓어짐
 
     context.translate(cx, cy)
 
