@@ -61,6 +61,7 @@ export default class GaugeCircle extends scene.Donut {
     const rxRatio = rx / 100 * ratio  // 원 안에 지워지는 비율을 계산한 rx - ratio의 비율에 따라 크기가 변함
     const ryRatio = ry / 100 * ratio  // 원 안에 지워지는 비율을 계산한 ry - ratio의 비율에 따라 크기가 변함
     const circleSize = (endAngle - startAngle) / 180  // 원의 총 길이. - PI * 2가 원이므로 (360도 = 2, 180도 = 1)
+    const totalValue = endValue - startValue
 
     startAngle = startAngle * RADIAN + 0.5  //  맨 위쪽을 중심으로 앵글의 범위에 따라 왼쪽으로 넓어짐
     endAngle   = endAngle * RADIAN + 0.5    //  맨 위쪽을 중심으로 앵글의 범위에 따라 오른쪽으로 넓어짐
@@ -85,9 +86,12 @@ export default class GaugeCircle extends scene.Donut {
       let beforeValue = 0
       fillStep.forEach(v =>{
         context.beginPath()
-        let value = Math.max(Math.min(v.value, endValue - startValue), startValue)   // v.value 범위의 최소값은 startValue, 최대값은 endValue - startValue가 되야함. 
-        let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / (endValue - startValue))
-        let endStepAngle = Math.PI * (startAngle + circleSize * value / (endValue - startValue))
+        let value = Math.max(Math.min(v.value, totalValue), startValue)   // v.value 범위의 최소값은 startValue, 최대값은 totalValue가 되야함. 
+        let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / totalValue)
+        let endStepAngle = Math.PI * (startAngle + circleSize * value / totalValue)
+
+        if(beforeValue > totalValue)  // 값이 게이지의 최대값을 넘어가면 그 다음부턴 다시 그릴 필요 없음
+          return false
 
         context.moveTo(0, 0)
         context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, startStepAngle, endStepAngle)
@@ -98,7 +102,7 @@ export default class GaugeCircle extends scene.Donut {
         context.fillStyle = v.fillStyle
         context.fill()
 
-        beforeValue = value - startValue
+        beforeValue = v.value - startValue
       })
     }
 
@@ -107,7 +111,7 @@ export default class GaugeCircle extends scene.Donut {
 
     ////  바늘 그리기  ////
     value = Math.max(Math.min(value, endValue), startValue)   // 값이 startValue보다 작을 수 없고, endValue보다 클 수 없음.
-    let ang = Math.PI * (circleSize * (value - startValue) / (endValue - startValue) + startAngle - 0.5)
+    let ang = Math.PI * (circleSize * (value - startValue) / totalValue + startAngle - 0.5)
 
     context.rotate(ang)
 
@@ -138,7 +142,7 @@ export default class GaugeCircle extends scene.Donut {
     ////  스텝 선 그리기  ////
     context.fillStyle = stepFillStyle
     if(showStepLine){
-      let count = (endValue - startValue) / step
+      let count = totalValue / step
 
       // Draw StartValue 
       drawStepLine(context, Math.PI * (startAngle + 0.5), rx * 0.8, stepNeedleSize) // 원을 그릴때 PI는 45도 부터 그리지만 angle은 0도부터 틀어서 + 0.5도를 곱해줘야함
@@ -155,7 +159,7 @@ export default class GaugeCircle extends scene.Donut {
 
     ////  서브 스탭 그리기  ////
     if(showSubStep){
-      let count = endValue - startValue
+      let count = totalValue
 
       // Draw StartValue
       drawSubStepLine(context, Math.PI * (startAngle + 0.5), rx * 0.8, stepNeedleSize)
@@ -188,7 +192,7 @@ export default class GaugeCircle extends scene.Donut {
     }
 
     if(showStepText){  // Draw StepText
-      let count = (endValue - startValue) / step
+      let count = totalValue / step
 
       for(let num = 1; num < count; num++){
         let value = startValue + step * num
