@@ -86,10 +86,11 @@ export default class GaugeCircle extends scene.Donut {
       let beforeValue = 0
       fillStep.forEach(v =>{
         context.beginPath()
-        let value = Math.max(Math.min(v.value, totalValue), startValue)   // v.value 범위의 최소값은 startValue, 최대값은 totalValue가 되야함. 
+        let value = Math.max(Math.min(v.value - startValue, totalValue), startValue)   // v.value 범위의 최소값은 startValue, 최대값은 totalValue가 되야함. 
         let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / totalValue)
         let endStepAngle = Math.PI * (startAngle + circleSize * value / totalValue)
 
+        console.log(totalValue, value)
         if(beforeValue > totalValue)  // 값이 게이지의 최대값을 넘어가면 그 다음부턴 다시 그릴 필요 없음
           return false
 
