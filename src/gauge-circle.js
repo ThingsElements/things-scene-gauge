@@ -82,12 +82,12 @@ export default class GaugeCircle extends scene.Donut {
 
     ////  스텝별 색 칠하기  ////
     if(fillStep){ 
-      let beforeValue = startValue
+      let beforeValue = 0
       fillStep.forEach(v =>{
         context.beginPath()
-        let value = Math.max(Math.min(v.value, endValue), startValue)   // v.value 범위의 최소값은 startValue, 최대값은 endValue가 됨
-        let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / endValue)
-        let endStepAngle = Math.PI * (startAngle + circleSize * value / endValue)
+        let value = Math.max(Math.min(v.value, endValue - startValue), startValue)   // v.value 범위의 최소값은 startValue, 최대값은 endValue - startValue가 되야함. 
+        let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / (endValue - startValue))
+        let endStepAngle = Math.PI * (startAngle + circleSize * value / (endValue - startValue))
 
         context.moveTo(0, 0)
         context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, startStepAngle, endStepAngle)
@@ -98,7 +98,7 @@ export default class GaugeCircle extends scene.Donut {
         context.fillStyle = v.fillStyle
         context.fill()
 
-        beforeValue = v.value
+        beforeValue = value - startValue
       })
     }
 
@@ -107,7 +107,7 @@ export default class GaugeCircle extends scene.Donut {
 
     ////  바늘 그리기  ////
     value = Math.max(Math.min(value, endValue), startValue)   // 값이 startValue보다 작을 수 없고, endValue보다 클 수 없음.
-    let ang = Math.PI * (circleSize * value / endValue + startAngle - 0.5)
+    let ang = Math.PI * (circleSize * (value - startValue) / (endValue - startValue) + startAngle - 0.5)
 
     context.rotate(ang)
 
