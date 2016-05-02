@@ -27,6 +27,19 @@ function drawStepText(context, text, ang, rx) {
   context.rotate(-ang)
 }
 
+var oldValue = 0
+
+// function startAnimation(value){
+//   setTimeout(function temp{
+//     while(oldValue == value){
+//       if(oldValue > value)
+//         value--
+//       else
+//         value++
+//     }
+//     oldValue = value
+//   }, 100, value)
+// }
 export default class GaugeCircle extends scene.Donut {
 
   _draw(context) {
@@ -46,7 +59,7 @@ export default class GaugeCircle extends scene.Donut {
       showEndValue = true,
       showStepLine = true,
       showSubStep = true,
-      fillStep,   // 스텝별 각각 다른 색
+      colorStops,   // 스텝별 각각 다른 색
       fillStyle,
       textFillStyle = 'black',
       needleFillStyle = 'black',
@@ -57,11 +70,15 @@ export default class GaugeCircle extends scene.Donut {
       cx, cy, rx, ry, ratio
     } = this.model
 
+    // console.log(oldValue, value)
+    // if(oldValue !== value)
+      // startAnimation(oldValue, value)
+
     const RADIAN = 0.0174533 / Math.PI
     const rxRatio = rx / 100 * ratio  // 원 안에 지워지는 비율을 계산한 rx - ratio의 비율에 따라 크기가 변함
     const ryRatio = ry / 100 * ratio  // 원 안에 지워지는 비율을 계산한 ry - ratio의 비율에 따라 크기가 변함
     const circleSize = (endAngle - startAngle) / 180  // 원의 총 길이. - PI * 2가 원이므로 (360도 = 2, 180도 = 1)
-    const totalValue = endValue - startValue
+    const totalValue = endValue - startValue          // 게이지의 시작과 끝 값의 크기
 
     startAngle = startAngle * RADIAN + 0.5  //  맨 위쪽을 중심으로 앵글의 범위에 따라 왼쪽으로 넓어짐
     endAngle   = endAngle * RADIAN + 0.5    //  맨 위쪽을 중심으로 앵글의 범위에 따라 오른쪽으로 넓어짐
@@ -82,15 +99,15 @@ export default class GaugeCircle extends scene.Donut {
 
 
     ////  스텝별 색 칠하기  ////
-    if(fillStep){ 
+    if(colorStops){ 
       let beforeValue = 0
-      fillStep.forEach(v =>{
+      colorStops.forEach(v =>{
         context.beginPath()
-        let value = Math.max(Math.min(v.value - startValue, totalValue), startValue)   // v.value 범위의 최소값은 startValue, 최대값은 totalValue가 되야함. 
+        
+        let value = Math.max(Math.min(v.position - startValue, totalValue), 0)   // v.position 범위의 최소값은 startValue, 최대값은 totalValue가 되야함. 
         let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / totalValue)
         let endStepAngle = Math.PI * (startAngle + circleSize * value / totalValue)
 
-        console.log(totalValue, value)
         if(beforeValue > totalValue)  // 값이 게이지의 최대값을 넘어가면 그 다음부턴 다시 그릴 필요 없음
           return false
 
@@ -100,10 +117,10 @@ export default class GaugeCircle extends scene.Donut {
 
         context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endStepAngle, startStepAngle, true)
    
-        context.fillStyle = v.fillStyle
+        context.fillStyle = v.color
         context.fill()
 
-        beforeValue = v.value - startValue
+        beforeValue = value //v.position - startValue
       })
     }
 
@@ -135,7 +152,7 @@ export default class GaugeCircle extends scene.Donut {
 
     ////  작은 원 그리기  ////
     context.beginPath()
-    context.ellipse(0, 0, Math.abs(rx) / 20, Math.abs(rx) / 20, 0, 0, 2 * Math.PI)
+    context.ellipse(0, 0, Math.abs(rx) / 10, Math.abs(rx) / 10, 0, 0, 2 * Math.PI)
     context.fillStyle = innerCircleFillStyle
     context.fill()
 
