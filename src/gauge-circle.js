@@ -27,19 +27,37 @@ function drawStepText(context, text, ang, rx) {
   context.rotate(-ang)
 }
 
+function drawNeedle(context, rx, ang){
+  context.rotate(ang)
+
+  context.beginPath()
+
+  context.moveTo(rx * 0.03, 0)
+
+  context.lineTo(0, rx * 0.8)
+
+  context.lineTo(-rx * 0.03, 0)
+
+  context.lineTo(-rx * 0.02, -rx * 0.15)
+  context.lineTo(rx * 0.02, -rx * 0.15)
+
+  context.rotate(-ang)
+}
+
 var oldValue = 0
 
-// function startAnimation(value){
-//   setTimeout(function temp{
-//     while(oldValue == value){
-//       if(oldValue > value)
-//         value--
-//       else
-//         value++
-//     }
-//     oldValue = value
-//   }, 100, value)
-// }
+function startAnimation(value){
+  console.log(oldValue,value)
+
+    if(oldValue > value)
+      value+= 1
+    else
+      value-= 1
+
+    // if(oldValue != value)
+    //   window.requestAnimationFrame(startAnimation);
+}
+
 export default class GaugeCircle extends scene.Donut {
 
   _draw(context) {
@@ -71,8 +89,11 @@ export default class GaugeCircle extends scene.Donut {
     } = this.model
 
     // console.log(oldValue, value)
-    // if(oldValue !== value)
-      // startAnimation(oldValue, value)
+    if(oldValue !== value){
+      startAnimation(value)
+      // render();
+      oldValue = value
+    }
 
     const RADIAN = 0.0174533 / Math.PI
     const rxRatio = rx / 100 * ratio  // 원 안에 지워지는 비율을 계산한 rx - ratio의 비율에 따라 크기가 변함
@@ -104,7 +125,7 @@ export default class GaugeCircle extends scene.Donut {
       colorStops.forEach(v =>{
         context.beginPath()
         
-        let value = Math.max(Math.min(v.position - startValue, totalValue), 0)   // v.position 범위의 최소값은 startValue, 최대값은 totalValue가 되야함. 
+        let value = Math.max(Math.min(v.position - startValue, totalValue), 0)   // v.position 범위의 최소값은 0, 최대값은 totalValue가 되야함. 
         let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / totalValue)
         let endStepAngle = Math.PI * (startAngle + circleSize * value / totalValue)
 
@@ -125,25 +146,13 @@ export default class GaugeCircle extends scene.Donut {
     }
 
     context.scale(1, ry / rx)
-    
+
 
     ////  바늘 그리기  ////
     value = Math.max(Math.min(value, endValue), startValue)   // 값이 startValue보다 작을 수 없고, endValue보다 클 수 없음.
     let ang = Math.PI * (circleSize * (value - startValue) / totalValue + startAngle - 0.5)
 
-    context.rotate(ang)
-
-    context.beginPath()
-
-    context.moveTo(rx * 0.02, 0)
-
-    context.lineTo(0, rx * 0.8)
-
-    context.lineTo(-rx * 0.02, 0)
-    context.lineTo(-rx * 0.01, -rx * 0.13)
-    context.lineTo(rx * 0.01, -rx * 0.13)
-
-    context.rotate(-ang)
+    drawNeedle(context, rx, ang)
 
     context.fillStyle = needleFillStyle
     context.fill()
@@ -152,7 +161,7 @@ export default class GaugeCircle extends scene.Donut {
 
     ////  작은 원 그리기  ////
     context.beginPath()
-    context.ellipse(0, 0, Math.abs(rx) / 10, Math.abs(rx) / 10, 0, 0, 2 * Math.PI)
+    context.ellipse(0, 0, Math.abs(rx) / 15, Math.abs(rx) / 15, 0, 0, 2 * Math.PI)
     context.fillStyle = innerCircleFillStyle
     context.fill()
 
