@@ -112,20 +112,20 @@ export default class GaugeCircle extends scene.Donut {
 
     context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, startAngle * Math.PI, endAngle * Math.PI)
     context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endAngle * Math.PI, startAngle * Math.PI, true)  // 반대로 그리며 원을 지움.
-    
+
     this.drawFill(context)
     this.drawStroke(context)
-    
+
     context.closePath()
 
 
     ////  스텝별 색 칠하기  ////
-    if(colorStops){ 
+    if(colorStops){
       let beforeValue = 0
       colorStops.forEach(v =>{
         context.beginPath()
-        
-        let value = Math.max(Math.min(v.position - startValue, totalValue), 0)   // v.position 범위의 최소값은 0, 최대값은 totalValue가 되야함. 
+
+        let value = Math.max(Math.min(v.position - startValue, totalValue), 0)   // v.position 범위의 최소값은 0, 최대값은 totalValue가 되야함.
         let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / totalValue)
         let endStepAngle = Math.PI * (startAngle + circleSize * value / totalValue)
 
@@ -137,7 +137,7 @@ export default class GaugeCircle extends scene.Donut {
         context.lineTo(0, 0)
 
         context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endStepAngle, startStepAngle, true)
-   
+
         context.fillStyle = v.color
         context.fill()
 
@@ -171,7 +171,7 @@ export default class GaugeCircle extends scene.Donut {
     if(showStepLine){
       let count = totalValue / step
 
-      // Draw StartValue 
+      // Draw StartValue
       drawStepLine(context, Math.PI * (startAngle + 0.5), rx * 0.8, stepNeedleSize) // 원을 그릴때 PI는 45도 부터 그리지만 angle은 0도부터 틀어서 + 0.5도를 곱해줘야함
       // Draw StepValue
       for(let num = 1; num < count; num++){
@@ -190,7 +190,7 @@ export default class GaugeCircle extends scene.Donut {
 
       // Draw StartValue
       drawSubStepLine(context, Math.PI * (startAngle + 0.5), rx * 0.8, stepNeedleSize)
-      
+
       // Draw StepValue
       for(let num = 1; num < count; num++){
         if(num % step == 0 || num % subStep != 0){  // 메인 스탭과 서브 스탭은 그리지 않음
@@ -240,6 +240,29 @@ export default class GaugeCircle extends scene.Donut {
     var normy = (y - cy) / (ry * 2 - 0.5);
 
     return (normx * normx + normy * normy) < 0.25;
+  }
+
+  onchange(after, before) {
+    if(!after.hasOwnProperty('value'))
+      return
+
+    var value = after.value
+    var self = this
+
+    this.model.value = before.value
+
+    this.animate({
+      step: function(delta) {
+        self.model.value = before.value + delta * (value - before.value)
+        self.invalidate()
+      },
+
+      delta: 'back',
+      options: {
+        x: 1
+      },
+      ease: 'out'
+    }).start()
   }
 }
 
