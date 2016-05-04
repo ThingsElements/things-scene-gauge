@@ -131,7 +131,8 @@ export default class GaugeCircle extends scene.Donut {
 
     ////  바늘 그리기  ////
     value = Math.max(Math.min(value, endValue), startValue)   // 값이 startValue보다 작을 수 없고, endValue보다 클 수 없음.
-    let ang = Math.PI * (circleSize * (value - startValue) / totalValue + startAngle - 0.5)
+    var drawingValue = value + (this._anim_alpha || 0)
+    let ang = Math.PI * (circleSize * (drawingValue - startValue) / totalValue + startAngle - 0.5)
 
     drawNeedle(context, rx, ang)
 
@@ -230,18 +231,19 @@ export default class GaugeCircle extends scene.Donut {
     var value = after.value
     var self = this
 
-    this.model.value = before.value
+    var diff = after.value - before.value
+    this._anim_alpha = -diff
 
     this.animate({
       step: function(delta) {
-        self.model.value = before.value + delta * (value - before.value)
+        self._anim_alpha = diff * (delta - 1)
         self.invalidate()
       },
-
+      duration: 1000,
       delta: 'bounce',
-      options: {
-        x: 1
-      },
+      // options: {
+      //   x: 5
+      // },
       ease: 'out'
     }).start()
   }
