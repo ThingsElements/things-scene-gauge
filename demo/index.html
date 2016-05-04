@@ -57,7 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         app.$.change.addEventListener('click', function() {
           var viewer = app.$.scene
-          viewer.findAll('gauge-circle')[0].set('value', 30 + Math.round(Math.random() * 70))
+          viewer.findAll('gauge-circle')[0].set('value', 0 + Math.round(Math.random() * 240))
           viewer.findAll('gauge-circle')[0].set('colorStops',[
               { position:40,
                 color: '#00ff00'},
@@ -109,7 +109,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             startAngle: 0,
             endAngle: 230,
             value: 65,
-            startValue: 50,
+            startValue: 00,
             endValue: 240,
             step: 20,
             fontColor: 'black',
