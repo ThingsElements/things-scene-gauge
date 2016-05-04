@@ -19,6 +19,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link rel="import" href="../../things-scene-viewer/things-scene-layer.html">
     <link rel="import" href="../../things-scene-viewer/things-scene-handler.html">
 
+    <link rel="import" href="../../things-designer-elements/things-editor-color.html">
+    <link rel="import" href="../../things-designer-elements/things-editor-color-stops.html">
+    <link rel="import" href="../../things-scene-modeler/things-scene-properties.html">
+
     <link rel="import" href="./things-scene-gauge.html">
 
     <style is="custom-style">
@@ -40,32 +44,102 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <template is="dom-bind" id="app">
       <p>An example of <code>&lt;things-scene-gauge&gt;</code>:</p>
 
-      <things-scene-viewer id='scene' model='{{model}}' mode="1">
+      <things-scene-viewer id='scene'
+                           scene='{{scene}}'
+                           selected='{{selected}}'
+                           model='[[model]]'
+                           mode="1">
         <things-scene-layer type="selection-layer"></things-scene-layer>
         <things-scene-layer type="modeling-layer"></things-scene-layer>
         <things-scene-handler type="text-editor"></things-scene-handler>
         <things-scene-handler type="move-handler"></things-scene-handler>
       </things-scene-viewer>
 
-      <button id="change">Change Value</button>
+      <things-scene-properties scene="[[scene]]"
+                               selected="[[selected]]"
+                               model="{{target}}"
+                               bounds="{{bounds}}">
+        <fieldset class="same-width">
+          <legend>Gauge style</legend>
+
+          <label>Value</label>
+          <input type="number" value-as-number="{{target.value::change}}"/>
+
+          <label>StartValue</label>
+          <input type="number" value-as-number="{{target.startValue::change}}" min="0" max="100" step="1" numberonly="true" />
+
+          <div class="merge-column">
+            <input type="checkbox" checked="{{target.showStartValue::change}}" required>ShowStartValue
+          </div>
+
+          <label>EndValue</label>
+          <input type="number" value-as-number="{{target.endValue::change}}" min="0" max="100" step="1"/>
+
+          <div class="merge-column">
+            <input type="checkbox" checked="{{target.showEndValue::change}}" required>ShowEndValue
+          </div>
+
+          <label>Step</label>
+          <input type="number" value-as-number="{{target.step::change}}"/>
+
+          <div class="merge-column">
+            <input type="checkbox" checked="{{target.showStepLine::change}}" required>ShowStepLine
+          </div>
+
+          <div class="merge-column">
+            <input type="checkbox" checked="{{target.showStepText::change}}" required>ShowStepText
+          </div>
+
+          <label>SubTextSize</label>
+          <input type="number" value-as-number="{{target.subTextSize::change}}"/>
+
+          <label>SubStep</label>
+          <input type="number" value-as-number="{{target.subStep::change}}"/>
+
+          <div class="merge-column">
+            <input type="checkbox" checked="{{target.showSubStep::change}}" required>ShowSubStep
+          </div>
+
+          <label>StepNeedleSize</label>
+          <input type="number" value-as-number="{{target.stepNeedleSize::change}}"/>
+
+          <label>StartAngle</label>
+          <input type="number" value-as-number="{{target.startAngle::change}}" min="0" max="360" step="1"/>
+
+          <label>EndAngle</label>
+          <input type="number" value-as-number="{{target.endAngle::change}}" min="0" max="360" step="1"/>
+
+          <label>TextFillStyle</label>
+          <things-editor-color value="{{target.textFillStyle}}">
+          </things-editor-color>
+
+          <label>NeedleFillStyle</label>
+          <things-editor-color value="{{target.needleFillStyle}}">
+          </things-editor-color>
+
+          <label>InnerCircleFillStyle</label>
+          <things-editor-color value="{{target.innerCircleFillStyle}}">
+          </things-editor-color>
+
+          <label>StepFillStyle</label>
+          <things-editor-color value="{{target.stepFillStyle}}">
+          </things-editor-color>
+
+          <label>ColorStops</label>
+          <things-editor-color-stops type="solid"
+                                     min="[[target.startValue]]"
+                                     max="[[target.endValue]]"
+                                     color-stops="{{target.colorStops}}">
+          </things-editor-color-stops>
+
+        </fieldset>
+      </things-scene-properties>
 
     </template>
 
     <script>
       window.addEventListener('WebComponentsReady', function(e) {
         var app = document.querySelector('#app')
-
-        app.$.change.addEventListener('click', function() {
-          var viewer = app.$.scene
-          viewer.findAll('gauge-circle')[0].set('value', 0 + Math.round(Math.random() * 240))
-          viewer.findAll('gauge-circle')[0].set('colorStops',[
-              { position:40,
-                color: '#00ff00'},
-              { position: 70,
-                color: '#ffff00'},
-              { position: 170,
-                color: '#ff0000'}])
-        })
 
         app.model = {
           components: [{
@@ -187,10 +261,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           //   subStep: 2,
           //   subTextSize: 5,
           //   // text: "#{value}%"
-            
+
               // type: 'gauge-vertical',
-              
-            
+
+
           }]
         }
       });
