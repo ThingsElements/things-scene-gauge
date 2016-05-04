@@ -44,19 +44,6 @@ function drawNeedle(context, rx, ang){
   context.rotate(-ang)
 }
 
-var oldValue = 0
-
-function startAnimation(value){
-  console.log(oldValue,value)
-
-    if(oldValue > value)
-      value+= 1
-    else
-      value-= 1
-
-    // if(oldValue != value)
-    //   window.requestAnimationFrame(startAnimation);
-}
 
 export default class GaugeCircle extends scene.Donut {
 
@@ -88,12 +75,6 @@ export default class GaugeCircle extends scene.Donut {
       cx, cy, rx, ry, ratio
     } = this.model
 
-    // console.log(oldValue, value)
-    if(oldValue !== value){
-      startAnimation(value)
-      // render();
-      oldValue = value
-    }
 
     const RADIAN = 0.0174533 / Math.PI
     const rxRatio = rx / 100 * ratio  // 원 안에 지워지는 비율을 계산한 rx - ratio의 비율에 따라 크기가 변함
@@ -257,7 +238,7 @@ export default class GaugeCircle extends scene.Donut {
         self.invalidate()
       },
 
-      delta: 'back',
+      delta: 'bounce',
       options: {
         x: 1
       },

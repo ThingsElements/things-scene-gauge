@@ -1,4 +1,4 @@
-export default class GaugeBar extends scene.Ellipse {
+export default class GaugeVertical extends scene.Rect {
 
   _draw(context) {
     var {
@@ -31,4 +31,4 @@ export default class GaugeBar extends scene.Ellipse {
   }
 }
 
-scene.Component.register('gauge-bar', GaugeBar)
+scene.Component.register('gauge-vertical', GaugeVertical)
