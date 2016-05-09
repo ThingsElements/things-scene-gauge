@@ -110,7 +110,7 @@ export default class GaugeCircle extends scene.Donut {
         let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / totalValue)
         let endStepAngle = Math.PI * (startAngle + circleSize * value / totalValue)
 
-        if(beforeValue > totalValue)  // 값이 게이지의 최대값을 넘어가면 그 다음부턴 다시 그릴 필요 없음
+        if(beforeValue > totalValue || beforeValue > value)  // 값이 게이지의 최대값을 넘어가거나 이전 값보다 현재값이 작으면 다시 그릴 필요 없음
           return false
 
         context.moveTo(0, 0)
@@ -118,11 +118,11 @@ export default class GaugeCircle extends scene.Donut {
         context.lineTo(0, 0)
 
         context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endStepAngle, startStepAngle, true)
-
+        
         context.fillStyle = v.color
         context.fill()
 
-        beforeValue = value //v.position - startValue
+        beforeValue = value
       })
     }
 
@@ -130,6 +130,7 @@ export default class GaugeCircle extends scene.Donut {
 
 
     ////  바늘 그리기  ////
+    context.beginPath()
     value = Math.max(Math.min(value, endValue), startValue)   // 값이 startValue보다 작을 수 없고, endValue보다 클 수 없음.
     var drawingValue = value + (this._anim_alpha || 0)
     let ang = Math.PI * (circleSize * (drawingValue - startValue) / totalValue + startAngle - 0.5)
@@ -141,7 +142,7 @@ export default class GaugeCircle extends scene.Donut {
     context.closePath()
 
 
-    ////  작은 원 그리기  ////
+    ////  중앙 원 그리기  ////
     context.beginPath()
     context.ellipse(0, 0, Math.abs(rx) / 15, Math.abs(rx) / 15, 0, 0, 2 * Math.PI)
     context.fillStyle = innerCircleFillStyle
