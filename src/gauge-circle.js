@@ -32,14 +32,14 @@ function drawNeedle(context, rx, ang){
 
   context.beginPath()
 
-  context.moveTo(rx * 0.03, 0)
+  context.moveTo(rx * 0.035, 0)  // 중앙 두께
 
-  context.lineTo(0, rx * 0.8)
+  context.lineTo(0, rx * 0.8)   // 끝 점
 
-  context.lineTo(-rx * 0.03, 0)
+  context.lineTo(-rx * 0.035, 0) // 중앙 두께
 
-  context.lineTo(-rx * 0.02, -rx * 0.15)
-  context.lineTo(rx * 0.02, -rx * 0.15)
+  context.lineTo(-rx * 0.015, -rx * 0.2)  // 뒷쪽 두께
+  context.lineTo(rx * 0.015, -rx * 0.2)   // 뒷쪽 두께
 
   context.rotate(-ang)
 }
@@ -75,15 +75,14 @@ export default class GaugeCircle extends scene.Donut {
       cx, cy, rx, ry, ratio
     } = this.model
 
-
     const RADIAN = 0.0174533 / Math.PI
     const rxRatio = rx / 100 * ratio  // 원 안에 지워지는 비율을 계산한 rx - ratio의 비율에 따라 크기가 변함
     const ryRatio = ry / 100 * ratio  // 원 안에 지워지는 비율을 계산한 ry - ratio의 비율에 따라 크기가 변함
     const circleSize = (endAngle - startAngle) / 180  // 원의 총 길이. - PI * 2가 원이므로 (360도 = 2, 180도 = 1)
     const totalValue = endValue - startValue          // 게이지의 시작과 끝 값의 크기
 
-    startAngle = startAngle * RADIAN + 0.5  //  맨 위쪽을 중심으로 앵글의 범위에 따라 왼쪽으로 넓어짐
-    endAngle   = endAngle * RADIAN + 0.5    //  맨 위쪽을 중심으로 앵글의 범위에 따라 오른쪽으로 넓어짐
+    startAngle = startAngle * RADIAN - 0.5  //  맨 위쪽을 중심으로 앵글의 범위에 따라 왼쪽으로 넓어짐
+    endAngle   = endAngle * RADIAN - 0.5    //  맨 위쪽을 중심으로 앵글의 범위에 따라 오른쪽으로 넓어짐
 
     context.translate(cx, cy)
 
@@ -92,25 +91,31 @@ export default class GaugeCircle extends scene.Donut {
     context.beginPath()
 
     context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, startAngle * Math.PI, endAngle * Math.PI)
-    context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endAngle * Math.PI, startAngle * Math.PI, true)  // 반대로 그리며 원을 지움.
-
-    this.drawFill(context)
     this.drawStroke(context)
 
+    context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endAngle * Math.PI, startAngle * Math.PI, true)  // 반대로 그리며 원을 지움.
+    this.drawFill(context)
+    
     context.closePath()
 
 
     ////  스텝별 색 칠하기  ////
     if(colorStops){
       let beforeValue = 0
-      colorStops.forEach(v =>{
+      colorStops.forEach(function(v, idx, arr){
         context.beginPath()
-
+        
         let value = Math.max(Math.min(v.position - startValue, totalValue), 0)   // v.position 범위의 최소값은 0, 최대값은 totalValue가 되야함.
         let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / totalValue)
-        let endStepAngle = Math.PI * (startAngle + circleSize * value / totalValue)
+        let endStepAngle
 
-        if(beforeValue > totalValue || beforeValue > value)  // 값이 게이지의 최대값을 넘어가거나 이전 값보다 현재값이 작으면 다시 그릴 필요 없음
+        if(idx === arr.length - 1)   // 마지막값은 무조건 끝까지 채워주도록 한다
+          endStepAngle = Math.PI * (startAngle + circleSize)
+        else
+          endStepAngle = Math.PI * (startAngle + circleSize * value / totalValue)
+
+
+        if(beforeValue > totalValue || beforeValue > value)  // 값이 게이지의 최대 값을 넘어가거나 이전 값 보다 현재값이 작으면 다시 그릴 필요 없음
           return false
 
         context.moveTo(0, 0)
@@ -118,21 +123,20 @@ export default class GaugeCircle extends scene.Donut {
         context.lineTo(0, 0)
 
         context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endStepAngle, startStepAngle, true)
-        
+
         context.fillStyle = v.color
         context.fill()
 
         beforeValue = value
       })
     }
-
     context.scale(1, ry / rx)
 
 
     ////  바늘 그리기  ////
     context.beginPath()
     value = Math.max(Math.min(value, endValue), startValue)   // 값이 startValue보다 작을 수 없고, endValue보다 클 수 없음.
-    var drawingValue = value + (this._anim_alpha || 0)
+    let drawingValue = value + (this._anim_alpha || 0)
     let ang = Math.PI * (circleSize * (drawingValue - startValue) / totalValue + startAngle - 0.5)
 
     drawNeedle(context, rx, ang)
@@ -229,10 +233,13 @@ export default class GaugeCircle extends scene.Donut {
     if(!after.hasOwnProperty('value'))
       return
 
+    var totalValue = this.model.endValue - this.model.startValue
     var value = after.value
     var self = this
 
     var diff = after.value - before.value
+    diff = Math.max(Math.min(diff, totalValue), -totalValue) // diff가 총 값을 넘지 않아야 게이지 밖으로 튕기지 않음
+
     this._anim_alpha = -diff
 
     this.animate({
