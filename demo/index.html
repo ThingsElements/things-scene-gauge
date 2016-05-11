@@ -21,6 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <link rel="import" href="../../things-designer-elements/things-editor-color.html">
     <link rel="import" href="../../things-designer-elements/things-editor-color-stops.html">
+    <link rel="import" href="../../things-designer-elements/things-editor-properties.html">
     <link rel="import" href="../../things-scene-modeler/things-scene-properties.html">
 
     <link rel="import" href="./things-scene-gauge.html">
@@ -55,85 +56,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <things-scene-handler type="move-handler"></things-scene-handler>
       </things-scene-viewer>
 
-      <things-scene-properties scene="[[scene]]"
-                               selected="[[selected]]"
-                               model="{{target}}"
-                               bounds="{{bounds}}">
-        <fieldset class="same-width">
-          <legend>Gauge style</legend>
-
-          <label>Value</label>
-          <input type="number" value-as-number="{{target.value::change}}"/>
-
-          <label>StartValue</label>
-          <input type="number" value-as-number="{{target.startValue::change}}" min="0" max="100" step="1" numberonly="true" />
-
-          <div class="merge-column">
-            <input type="checkbox" checked="{{target.showStartValue::change}}" required>ShowStartValue
-          </div>
-
-          <label>EndValue</label>
-          <input type="number" value-as-number="{{target.endValue::change}}" min="0" max="100" step="1"/>
-
-          <div class="merge-column">
-            <input type="checkbox" checked="{{target.showEndValue::change}}" required>ShowEndValue
-          </div>
-
-          <label>Step</label>
-          <input type="number" value-as-number="{{target.step::change}}"/>
-
-          <div class="merge-column">
-            <input type="checkbox" checked="{{target.showStepLine::change}}" required>ShowStepLine
-          </div>
-
-          <div class="merge-column">
-            <input type="checkbox" checked="{{target.showStepText::change}}" required>ShowStepText
-          </div>
-
-          <label>SubTextSize</label>
-          <input type="number" value-as-number="{{target.subTextSize::change}}"/>
-
-          <label>SubStep</label>
-          <input type="number" value-as-number="{{target.subStep::change}}"/>
-
-          <div class="merge-column">
-            <input type="checkbox" checked="{{target.showSubStep::change}}" required>ShowSubStep
-          </div>
-
-          <label>StepNeedleSize</label>
-          <input type="number" value-as-number="{{target.stepNeedleSize::change}}"/>
-
-          <label>StartAngle</label>
-          <input type="number" value-as-number="{{target.startAngle::change}}" min="0" max="360" step="1"/>
-
-          <label>EndAngle</label>
-          <input type="number" value-as-number="{{target.endAngle::change}}" min="0" max="360" step="1"/>
-
-          <label>TextFillStyle</label>
-          <things-editor-color value="{{target.textFillStyle}}">
-          </things-editor-color>
-
-          <label>NeedleFillStyle</label>
-          <things-editor-color value="{{target.needleFillStyle}}">
-          </things-editor-color>
-
-          <label>InnerCircleFillStyle</label>
-          <things-editor-color value="{{target.innerCircleFillStyle}}">
-          </things-editor-color>
-
-          <label>StepFillStyle</label>
-          <things-editor-color value="{{target.stepFillStyle}}">
-          </things-editor-color>
-
-          <label>ColorStops</label>
-          <things-editor-color-stops type="solid"
-                                     min="[[target.startValue]]"
-                                     max="[[target.endValue]]"
-                                     value="{{target.colorStops}}">
-          </things-editor-color-stops>
-
-        </fieldset>
-      </things-scene-properties>
+      <fieldset class="same-width">
+        <legend>Gauge style</legend>
+        <things-scene-properties scene="[[scene]]"
+                                 selected="[[selected]]"
+                                 model="{{target}}"
+                                 bounds="{{bounds}}">
+          <things-editor-properties id="properties"
+                                    target="{{target}}"
+                                    props="{{props}}">
+          </things-editor-properties>
+        </things-scene-properties>
+      </fieldset>
 
     </template>
 
@@ -325,6 +259,111 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 color: '#ff0000'}],
           }]
         }
+
+        app.props = [{
+          type: 'number',
+          label: 'Value',
+          name: 'value',
+          property: 'number'
+        }, {
+          type: 'number',
+          label: 'StartValue',
+          name: 'startValue',
+          property: 'number'
+        }, {
+          type: 'checkbox',
+          label: 'ShowStartValue',
+          name: 'showStartValue',
+          property: 'checkbox'
+        }, {
+          type: 'number',
+          label: 'EndValue',
+          name: 'endValue',
+          property: 'number'
+        }, {
+          type: 'checkbox',
+          label: 'ShowEndValue',
+          name: 'showEndValue',
+          property: 'checkbox'
+        }, {
+          type: 'number',
+          label: 'Step',
+          name: 'step',
+          property: 'number'
+        }, {
+          type: 'checkbox',
+          label: 'ShowStepLine',
+          name: 'showStepLine',
+          property: 'checkbox'
+        }, {
+          type: 'checkbox',
+          label: 'ShowStepText',
+          name: 'showStepText',
+          property: 'checkbox'
+        }, {
+          type: 'number',
+          label: 'SubTextSize',
+          name: 'subTextSize',
+          property: 'number'
+        }, {
+          type: 'number',
+          label: 'SubStep',
+          name: 'subStep',
+          property: 'number'
+        }, {
+          type: 'checkbox',
+          label: 'ShowSubStep',
+          name: 'showSubStep',
+          property: 'checkbox'
+        }, {
+          type: 'number',
+          label: 'StepNeedleSize',
+          name: 'stepNeedleSize',
+          property: 'number'
+        }, {
+          type: 'number',
+          label: 'StartAngle',
+          name: 'startAngle',
+          property: 'number'
+        }, {
+          type: 'number',
+          label: 'EndAngle',
+          name: 'endAngle',
+          property: 'number'
+        }, {
+          type: 'color',
+          label: 'TextFillStyle',
+          name: 'textFillStyle',
+          property: 'color'
+        }, {
+          type: 'color',
+          label: 'NeedleFillStyle',
+          name: 'needleFillStyle',
+          property: 'color'
+        }, {
+          type: 'color',
+          label: 'InnerCircleFillStyle',
+          name: 'innerCircleFillStyle',
+          property: 'color'
+        }, {
+          type: 'color',
+          label: 'StepFillStyle',
+          name: 'stepFillStyle',
+          property: 'color'
+        }, {
+          type: 'solid-color-stops',
+          label: 'COLOR STOPS',
+          name: 'colorStops',
+          property: {
+            min: 0,
+            max: 240
+          }
+        }]
+
+        // app.target = [{
+        //   value: 0
+        // }]
+
       });
     </script>
   </body>
