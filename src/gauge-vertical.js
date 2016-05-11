@@ -74,14 +74,14 @@ export default class GaugeVertical extends scene.Rect {
 
       ////  바늘 그리기  ////
       context.beginPath()
-      value = Math.max(Math.min(value, endValue), startValue)   // 값이 startValue보다 작을 수 없고, endValue보다 클 수 없음.
       let drawingValue = value + (this._anim_alpha || 0)
-      let position = (drawingValue - startValue) / totalValue * height 
+      drawingValue = Math.max(Math.min(drawingValue, endValue), startValue) // 그려지는 값은 startValue보다 작을 수 없고, endValue보다 클 수 없음.
+      let position = (drawingValue - startValue) / totalValue * height
 
       needleSize *= 4
-      context.moveTo(width + 2, position)
-      context.lineTo(width + 3 + needleSize, position + needleSize / 2)
-      context.lineTo(width + 3 + needleSize, position - needleSize / 2)
+      context.moveTo(width * 1.05, position)
+      context.lineTo(width * 1.05 + needleSize, position + needleSize / 2)
+      context.lineTo(width * 1.05 + needleSize, position - needleSize / 2)
 
       context.fillStyle = needleFillStyle
       context.fill()
@@ -149,7 +149,7 @@ export default class GaugeVertical extends scene.Rect {
         }
       }
 
-      context.translate(-left, -top) 
+      context.translate(-left, -top)
     }
   }
   get controls() {}
@@ -158,12 +158,8 @@ export default class GaugeVertical extends scene.Rect {
     if(!after.hasOwnProperty('value'))
       return
 
-    var totalValue = this.model.endValue - this.model.startValue
-    var value = after.value
     var self = this
-
     var diff = after.value - before.value
-    diff = Math.max(Math.min(diff, totalValue), -totalValue) // diff가 총 값을 넘지 않아야 게이지 밖으로 튕기지 않음
 
     this._anim_alpha = -diff
 
@@ -172,8 +168,8 @@ export default class GaugeVertical extends scene.Rect {
         self._anim_alpha = diff * (delta - 1)
         self.invalidate()
       },
-      duration: 1500,
-      delta: 'back',
+      duration: 1000,
+      delta: 'circ',
       options: {
         x: 1
       },
