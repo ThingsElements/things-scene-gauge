@@ -33,6 +33,7 @@ export default class GaugeVertical extends scene.Rect {
 
       context.translate(left, top)   // top과 left의 좌표에 영향을 받지 않기 위해 transalate를 한다음 모든 탑과 레프트의 좌표를 0으로 줌
 
+
       ////  메인 막대 그리기  ////
       context.beginPath()
 
@@ -48,7 +49,7 @@ export default class GaugeVertical extends scene.Rect {
         let beforeValue = 0
         colorStops.forEach(function(v, idx, arr){
           context.beginPath()
-          
+
           let value = Math.max(Math.min(v.position - startValue, totalValue), 0)   // v.position 범위의 최소값은 0, 최대값은 totalValue가 되야함.
           let startStepPosition = height * beforeValue / totalValue
           let endStepPosition
@@ -56,13 +57,12 @@ export default class GaugeVertical extends scene.Rect {
           if(idx === arr.length - 1)   // 마지막값은 무조건 끝까지 채워주도록 한다
             endStepPosition = height - startStepPosition
           else
-            endStepPosition = height * value / totalValue
-
+            endStepPosition = height - height * value / totalValue
 
           if(beforeValue > totalValue || beforeValue > value)  // 값이 게이지의 최대 값을 넘어가거나 이전 값 보다 현재값이 작으면 다시 그릴 필요 없음
             return false
 
-          context.rect(0, startStepPosition, width, endStepPosition)
+          context.rect(0, height - startStepPosition, width, -endStepPosition)
 
           context.fillStyle = v.color
           context.fill()
@@ -76,7 +76,7 @@ export default class GaugeVertical extends scene.Rect {
       context.beginPath()
       let drawingValue = value + (this._anim_alpha || 0)
       drawingValue = Math.max(Math.min(drawingValue, endValue), startValue) // 그려지는 값은 startValue보다 작을 수 없고, endValue보다 클 수 없음.
-      let position = (drawingValue - startValue) / totalValue * height
+      let position = height - (drawingValue - startValue) / totalValue * height
 
       needleSize *= 4
       context.moveTo(width * 1.05, position)
@@ -94,7 +94,7 @@ export default class GaugeVertical extends scene.Rect {
         let count = totalValue / step
 
         // Draw StartValue
-        context.fillRect(0, 0, height * 0.06, stepNeedleSize)
+        context.fillRect(0, height, height * 0.06, stepNeedleSize)
         // Draw StepValue
         for(let num = 1; num < count; num++){
           let locate = height / count * num
@@ -102,7 +102,7 @@ export default class GaugeVertical extends scene.Rect {
           context.fillRect(0, locate, height * 0.06, stepNeedleSize)
         }
         // Draw EndValue
-       context.fillRect(0, height, height * 0.06, stepNeedleSize)
+        context.fillRect(0, 0, height * 0.06, stepNeedleSize)
       }
 
 
@@ -131,11 +131,11 @@ export default class GaugeVertical extends scene.Rect {
       context.textBaseline = "middle"
       context.textAlign = "center"
       if(showStartValue){  // Draw StartText
-        context.fillText(startValue, -fontSize, 0)
+        context.fillText(startValue, -fontSize, height)
       }
 
       if(showEndValue){   // Draw EndText
-        context.fillText(endValue, -fontSize, height)
+        context.fillText(endValue, -fontSize, 0)
       }
 
       if(showStepText){  // Draw StepText
@@ -143,7 +143,7 @@ export default class GaugeVertical extends scene.Rect {
 
         for(let num = 1; num < count; num++){
           let value = startValue + step * num
-          let locate = height / count * num
+          let locate = height - height / count * num
 
           context.fillText(value, -fontSize, locate)
         }
