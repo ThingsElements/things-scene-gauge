@@ -8,7 +8,7 @@
   },
   "scripts": {
     "serve": "watchify src/*.js -o things-scene-gauge.js src/index.js & polyserve",
-    "build": "browserify src/index.js -o things-scene-gauge.js && uglifyjs things-scene-gauge.js -o things-scene-gauge-min.js"
+    "build": "browserify src/index.js -o things-scene-gauge.js && uglifyjs things-scene-gauge.js -m -c -o things-scene-gauge-min.js"
   },
   "repository": {
     "type": "git",
