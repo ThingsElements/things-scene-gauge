@@ -50,7 +50,7 @@ export default class GaugeHorizon extends scene.Rect {
         let startStepPosition = width * beforeValue / totalValue
         let endStepPosition
 
-        if(idx === arr.length - 1)   // 마지막값은 무조건 끝까지 채워주도록 한다
+        if(idx == arr.length - 1 || startStepPosition + (width * value / totalValue))   // 배열의 마지막 값이거나 중간 시작값 + 그려지는 값이 width 를 넘을 경우는 무조건 끝까지 채워주도록 한다
           endStepPosition = width - startStepPosition
         else
           endStepPosition = width * value / totalValue
