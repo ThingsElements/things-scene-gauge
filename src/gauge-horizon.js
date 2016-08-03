@@ -3,7 +3,6 @@ export default class GaugeHorizon extends scene.Rect {
   _draw(context) {
     var {
       value = 0,
-      lineWidth = 5,
       startValue,
       endValue,
       step,
