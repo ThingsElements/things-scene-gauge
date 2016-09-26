@@ -44,7 +44,7 @@ export default class GaugeHorizon extends scene.Rect {
       let beforeValue = 0
       colorStops.forEach(function(v, idx, arr){
         context.beginPath()
-        
+
         let value = Math.max(Math.min(v.position - startValue, totalValue), 0)   // v.position 범위의 최소값은 0, 최대값은 totalValue가 되야함.
         let startStepPosition = width * beforeValue / totalValue
         let endStepPosition
@@ -135,7 +135,7 @@ export default class GaugeHorizon extends scene.Rect {
     context.beginPath()
     let drawingValue = value + (this._anim_alpha || 0)
     drawingValue = Math.max(Math.min(drawingValue, endValue), startValue) // 그려지는 값은 startValue보다 작을 수 없고, endValue보다 클 수 없음.
-    let position = (drawingValue - startValue) / totalValue * width 
+    let position = (drawingValue - startValue) / totalValue * width
 
     needleSize *= 4
     context.moveTo(position, height + fontSize * 1.4)
@@ -146,9 +146,9 @@ export default class GaugeHorizon extends scene.Rect {
     context.fill()
     context.closePath()
 
-
-    context.translate(-left, -top) 
+    context.translate(-left, -top)
   }
+
   get controls() {}
 
   onchange(after, before) {
