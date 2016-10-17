@@ -173,6 +173,10 @@ export default class GaugeHorizon extends scene.Rect {
       ease: 'out'
     }).start()
   }
+
+  _post_draw(context) {
+    this.drawText(context);
+  }
 }
 
 scene.Component.register('gauge-horizon', GaugeHorizon)

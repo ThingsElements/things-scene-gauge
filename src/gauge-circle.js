@@ -96,7 +96,7 @@ export default class GaugeCircle extends scene.Donut {
 
     context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endAngle * Math.PI, startAngle * Math.PI, true)  // 반대로 그리며 원을 지움.
     this.drawFill(context)
-    
+
     context.closePath()
 
 
@@ -105,7 +105,7 @@ export default class GaugeCircle extends scene.Donut {
       let beforeValue = 0
       colorStops.forEach(function(v, idx, arr){
         context.beginPath()
-        
+
         let value = Math.max(Math.min(v.position - startValue, totalValue), 0)   // v.position 범위의 최소값은 0, 최대값은 totalValue가 되야함.
         let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / totalValue)
         let endStepAngle
@@ -139,7 +139,7 @@ export default class GaugeCircle extends scene.Donut {
       context.beginPath()
       let drawingValue = value + (this._anim_alpha || 0)
       drawingValue = Math.max(Math.min(drawingValue, endValue), startValue) // 그려지는 값은 startValue보다 작을 수 없고, endValue보다 클 수 없음.
-      
+
       let ang = Math.PI * (circleSize * (drawingValue - startValue) / totalValue + startAngle - 0.5)
 
       drawNeedle(context, rx, ang)
@@ -195,7 +195,7 @@ export default class GaugeCircle extends scene.Donut {
     context.font = rx * subTextSize / 50 + "px arial"
     context.textBaseline = "middle"
     context.textAlign = "center"
-    let textLocation = inText ? 0.8 : 1.35 
+    let textLocation = inText ? 0.8 : 1.35
 
     if(showStartValue){  // Draw StartText
       drawStepText(context, startValue, Math.PI * (startAngle + 0.5), rx * textLocation)
@@ -235,7 +235,7 @@ export default class GaugeCircle extends scene.Donut {
 
     var self = this
     var diff = after.value - before.value
-    
+
     this._anim_alpha = -diff
 
     this.animate({
@@ -250,6 +250,10 @@ export default class GaugeCircle extends scene.Donut {
       // },
       ease: 'out'
     }).start()
+  }
+
+  _post_draw(context) {
+    this.drawText(context);
   }
 }
 

@@ -57,7 +57,7 @@ export default class GaugeVertical extends scene.Rect {
 
         if(beforeValue > totalValue || beforeValue > value)  // 값이 게이지의 최대 값을 넘어가거나 이전 값 보다 현재값이 작으면 다시 그릴 필요 없음
           return false
-        
+
         context.rect(0, height - startStepPosition, width, -endStepPosition)
 
         context.fillStyle = v.color
@@ -146,7 +146,7 @@ export default class GaugeVertical extends scene.Rect {
 
     context.translate(-left, -top)
   }
-  
+
   get controls() {}
 
   onchange(after, before) {
@@ -170,6 +170,10 @@ export default class GaugeVertical extends scene.Rect {
       },
       ease: 'out'
     }).start()
+  }
+
+  _post_draw(context) {
+    this.drawText(context);
   }
 }
 
