@@ -63,7 +63,6 @@ export default class GaugeCircle extends scene.Donut {
       showEndValue = true,
       showStepLine = true,
       showSubStep = true,
-      showNeedle = true,
       inText = true,
       colorStops,   // 스텝별 각각 다른 색
       fillStyle,
@@ -135,26 +134,25 @@ export default class GaugeCircle extends scene.Donut {
 
 
     ////  바늘 그리기  ////
-    if(showNeedle){
-      context.beginPath()
-      let drawingValue = value + (this._anim_alpha || 0)
-      drawingValue = Math.max(Math.min(drawingValue, endValue), startValue) // 그려지는 값은 startValue보다 작을 수 없고, endValue보다 클 수 없음.
+    context.beginPath()
+    let drawingValue = value + (this._anim_alpha || 0)
+    drawingValue = Math.max(Math.min(drawingValue, endValue), startValue) // 그려지는 값은 startValue보다 작을 수 없고, endValue보다 클 수 없음.
 
-      let ang = Math.PI * (circleSize * (drawingValue - startValue) / totalValue + startAngle - 0.5)
+    let ang = Math.PI * (circleSize * (drawingValue - startValue) / totalValue + startAngle - 0.5)
 
-      drawNeedle(context, rx, ang)
+    drawNeedle(context, rx, ang)
 
-      context.fillStyle = needleFillStyle
-      context.fill()
-      context.closePath()
+    context.fillStyle = needleFillStyle
+    context.fill()
+    context.closePath()
 
 
-      ////  중앙 원 그리기  ////
-      context.beginPath()
-      context.ellipse(0, 0, Math.abs(rx) / 15, Math.abs(rx) / 15, 0, 0, 2 * Math.PI)
-      context.fillStyle = innerCircleFillStyle
-      context.fill()
-    }
+    ////  중앙 원 그리기  ////
+    context.beginPath()
+    context.ellipse(0, 0, Math.abs(rx) / 15, Math.abs(rx) / 15, 0, 0, 2 * Math.PI)
+    context.fillStyle = innerCircleFillStyle
+    context.fill()
+
 
     ////  스텝 선 그리기  ////
     context.fillStyle = stepFillStyle
