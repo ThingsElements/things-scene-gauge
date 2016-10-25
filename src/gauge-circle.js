@@ -1,3 +1,105 @@
+const NATURE = {
+  mutable: false,
+  resizable: true,
+  rotatable: true,
+  properties : [{
+    type: 'number',
+    label: 'value',
+    name: 'value',
+    property: 'value'
+  },{
+    type: 'number',
+    label: 'startValue',
+    name: 'startValue',
+    property: 'startValue'
+  },{
+    type: 'checkbox',
+    label: 'showStartValue',
+    name: 'showStartValue',
+    property: 'showStartValue'
+  },{
+    type: 'number',
+    label: 'endValue',
+    name: 'endValue',
+    property: 'endValue'
+  },{
+    type: 'checkbox',
+    label: 'showEndValue',
+    name: 'showEndValue',
+    property: 'showEndValue'
+  },{
+    type: 'number',
+    label: 'step',
+    name: 'step',
+    property: 'step'
+  },{
+    type: 'checkbox',
+    label: 'showStepLine',
+    name: 'showStepLine',
+    property: 'showStepLine'
+  },{
+    type: 'checkbox',
+    label: 'showStepText',
+    name: 'showStepText',
+    property: 'showStepText'
+  },{
+    type: 'number',
+    label: 'stepTextSize',
+    name: 'stepTextSize',
+    property: 'stepTextSize'
+  },{
+    type: 'number',
+    label: 'subStep',
+    name: 'subStep',
+    property: 'subStep'
+  },{
+    type: 'checkbox',
+    label: 'showSubStep',
+    name: 'showSubStep',
+    property: 'showSubStep'
+  },{
+    type: 'checkbox',
+    label: 'inText',
+    name: 'inText',
+    property: 'inText'
+  },{
+    type: 'number',
+    label: 'stepNeedleSize',
+    name: 'stepNeedleSize',
+    property: 'stepNeedleSize'
+  },{
+    type: 'number',
+    label: 'startAngle',
+    name: 'startAngle',
+    property: 'startAngle'
+  },{
+    type: 'number',
+    label: 'endAngle',
+    name: 'endAngle',
+    property: 'endAngle'
+  },{
+    type: 'color',
+    label: 'needleFillStyle',
+    name: 'needleFillStyle',
+    property: 'needleFillStyle'
+  },{
+    type: 'color',
+    label: 'innerCircleFillStyle',
+    name: 'innerCircleFillStyle',
+    property: 'innerCircleFillStyle'
+  },{
+    type: 'color',
+    label: 'stepFillStyle',
+    name: 'stepFillStyle',
+    property: 'stepFillStyle'
+  },{
+    type: 'solid-color-stops',
+    label: 'colorStops',
+    name: 'colorStops',
+    property: 'colorStops'
+  }]
+}
+
 function drawStepLine(context, ang, rx, stepNeedleSize) {
   context.rotate(ang)
   context.translate(0, - rx)
@@ -71,7 +173,7 @@ export default class GaugeCircle extends scene.Donut {
       innerCircleFillStyle = 'gray',
       stepNeedleSize = 2,
       stepFillStyle,
-      subTextSize,
+      stepTextSize,
       cx, cy, rx, ry, ratio
     } = this.model
 
@@ -190,7 +292,7 @@ export default class GaugeCircle extends scene.Donut {
 
     ////  스텝 텍스트 그리기  ////
     context.fillStyle = textFillStyle
-    context.font = rx * subTextSize / 50 + "px arial"
+    context.font = rx * stepTextSize / 50 + "px arial"
     context.textBaseline = "middle"
     context.textAlign = "center"
     let textLocation = inText ? 0.8 : 1.35
@@ -252,6 +354,10 @@ export default class GaugeCircle extends scene.Donut {
 
   _post_draw(context) {
     this.drawText(context);
+  }
+
+  get nature(){
+    return NATURE
   }
 }
 
