@@ -105,7 +105,7 @@ export default class GaugeVertical extends scene.Rect {
       textFillStyle,
       needleSize,
       stepNeedleSize,
-      subTextSize,
+      stepTextSize,
       showStepText = true,
       showStartValue = true,
       showEndValue = true,
@@ -212,7 +212,7 @@ export default class GaugeVertical extends scene.Rect {
 
 
      ////  스텝 텍스트 그리기  ////
-    let fontSize = height * subTextSize / 150
+    let fontSize = height * stepTextSize / 150
     context.fillStyle = textFillStyle
     context.font =  fontSize + "px arial"
     context.textBaseline = "middle"
