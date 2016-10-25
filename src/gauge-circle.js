@@ -79,6 +79,11 @@ const NATURE = {
     property: 'endAngle'
   },{
     type: 'color',
+    label: 'textFillStyle',
+    name: 'textFillStyle',
+    property: 'textFillStyle'
+  },{
+    type: 'color',
     label: 'needleFillStyle',
     name: 'needleFillStyle',
     property: 'needleFillStyle'

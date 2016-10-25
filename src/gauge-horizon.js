@@ -1,3 +1,95 @@
+const NATURE = {
+  mutable: false,
+  resizable: true,
+  rotatable: true,
+  properties : [{
+    type: 'number',
+    label: 'value',
+    name: 'value',
+    property: 'value'
+  },{
+    type: 'number',
+    label: 'startValue',
+    name: 'startValue',
+    property: 'startValue'
+  },{
+    type: 'checkbox',
+    label: 'showStartValue',
+    name: 'showStartValue',
+    property: 'showStartValue'
+  },{
+    type: 'number',
+    label: 'endValue',
+    name: 'endValue',
+    property: 'endValue'
+  },{
+    type: 'checkbox',
+    label: 'showEndValue',
+    name: 'showEndValue',
+    property: 'showEndValue'
+  },{
+    type: 'number',
+    label: 'step',
+    name: 'step',
+    property: 'step'
+  },{
+    type: 'checkbox',
+    label: 'showStepLine',
+    name: 'showStepLine',
+    property: 'showStepLine'
+  },{
+    type: 'checkbox',
+    label: 'showStepText',
+    name: 'showStepText',
+    property: 'showStepText'
+  },{
+    type: 'number',
+    label: 'stepTextSize',
+    name: 'stepTextSize',
+    property: 'stepTextSize'
+  },{
+    type: 'number',
+    label: 'subStep',
+    name: 'subStep',
+    property: 'subStep'
+  },{
+    type: 'checkbox',
+    label: 'showSubStep',
+    name: 'showSubStep',
+    property: 'showSubStep'
+  },{
+    type: 'number',
+    label: 'stepNeedleSize',
+    name: 'stepNeedleSize',
+    property: 'stepNeedleSize'
+  },{
+    type: 'color',
+    label: 'textFillStyle',
+    name: 'textFillStyle',
+    property: 'textFillStyle'
+  },{
+    type: 'color',
+    label: 'needleFillStyle',
+    name: 'needleFillStyle',
+    property: 'needleFillStyle'
+  },{
+    type: 'number',
+    label: 'needleSize',
+    name: 'needleSize',
+    property: 'needleSize'
+  },{
+    type: 'color',
+    label: 'stepFillStyle',
+    name: 'stepFillStyle',
+    property: 'stepFillStyle'
+  },{
+    type: 'solid-color-stops',
+    label: 'colorStops',
+    name: 'colorStops',
+    property: 'colorStops'
+  }]
+}
+
 export default class GaugeHorizon extends scene.Rect {
 
   _draw(context) {
@@ -13,7 +105,7 @@ export default class GaugeHorizon extends scene.Rect {
       textFillStyle,
       needleSize,
       stepNeedleSize,
-      subTextSize,
+      stepTextSize,
       showStepText = true,
       showStartValue = true,
       showEndValue = true,
@@ -106,7 +198,7 @@ export default class GaugeHorizon extends scene.Rect {
 
 
      ////  스텝 텍스트 그리기  ////
-    let fontSize = width * subTextSize / 150
+    let fontSize = width * stepTextSize / 150
     context.fillStyle = textFillStyle
     context.font =  fontSize + "px arial"
     context.textBaseline = "middle"
@@ -176,6 +268,10 @@ export default class GaugeHorizon extends scene.Rect {
 
   _post_draw(context) {
     this.drawText(context);
+  }
+
+  get nature(){
+    return NATURE
   }
 }
 
