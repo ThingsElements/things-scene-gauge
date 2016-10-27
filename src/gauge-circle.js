@@ -12,7 +12,6 @@ const NATURE = {
     label: 'startValue',
     name: 'startValue',
     observe: function(startValue) {
-      console.log('observe startValue');
       this.parentElement.querySelector('[name=colorStops]').set('property.min', startValue)
     },
     property: 'startValue'
@@ -26,7 +25,6 @@ const NATURE = {
     label: 'endValue',
     name: 'endValue',
     observe: function(endValue) {
-      console.log('observe endValue');
       this.parentElement.querySelector('[name=colorStops]').set('property.max', endValue)
     },
     property: 'endValue'
