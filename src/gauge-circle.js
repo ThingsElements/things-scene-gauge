@@ -11,6 +11,10 @@ const NATURE = {
     type: 'number',
     label: 'startValue',
     name: 'startValue',
+    observe: function(startValue) {
+      console.log('observe startValue');
+      this.parentElement.querySelector('[name=colorStops]').set('property.min', startValue)
+    },
     property: 'startValue'
   },{
     type: 'checkbox',
@@ -21,6 +25,10 @@ const NATURE = {
     type: 'number',
     label: 'endValue',
     name: 'endValue',
+    observe: function(endValue) {
+      console.log('observe endValue');
+      this.parentElement.querySelector('[name=colorStops]').set('property.max', endValue)
+    },
     property: 'endValue'
   },{
     type: 'checkbox',
@@ -98,10 +106,17 @@ const NATURE = {
     name: 'stepFillStyle',
     property: 'stepFillStyle'
   },{
-    type: 'solid-color-stops',
+    type: 'gradient-color-stops',
     label: 'colorStops',
     name: 'colorStops',
-    property: 'colorStops'
+    property: {
+      // min : function() {
+      //   return '[[target.startValue]]'
+      // },
+      // max : function() {
+      //   return '[[target.endValue]]'
+      // }
+    }
   }]
 }
 
