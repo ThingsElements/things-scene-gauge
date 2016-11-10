@@ -16,11 +16,6 @@ const NATURE = {
     },
     property: 'startValue'
   },{
-    type: 'checkbox',
-    label: 'showStartValue',
-    name: 'showStartValue',
-    property: 'showStartValue'
-  },{
     type: 'number',
     label: 'endValue',
     name: 'endValue',
@@ -29,25 +24,10 @@ const NATURE = {
     },
     property: 'endValue'
   },{
-    type: 'checkbox',
-    label: 'showEndValue',
-    name: 'showEndValue',
-    property: 'showEndValue'
-  },{
     type: 'number',
     label: 'step',
     name: 'step',
     property: 'step'
-  },{
-    type: 'checkbox',
-    label: 'showStepLine',
-    name: 'showStepLine',
-    property: 'showStepLine'
-  },{
-    type: 'checkbox',
-    label: 'showStepText',
-    name: 'showStepText',
-    property: 'showStepText'
   },{
     type: 'number',
     label: 'stepTextSize',
@@ -58,11 +38,6 @@ const NATURE = {
     label: 'subStep',
     name: 'subStep',
     property: 'subStep'
-  },{
-    type: 'checkbox',
-    label: 'showSubStep',
-    name: 'showSubStep',
-    property: 'showSubStep'
   },{
     type: 'number',
     label: 'stepNeedleSize',
@@ -96,6 +71,38 @@ const NATURE = {
       min: 0,
       max: 100
     }
+  }, {
+    type: 'legend',
+    label: '',
+    name: 'toggleOption',
+    property: {
+      label: 'Toggle Option'
+    }
+  },{
+    type: 'checkbox',
+    label: 'showStartValue',
+    name: 'showStartValue',
+    property: 'showStartValue'
+  },{
+    type: 'checkbox',
+    label: 'showEndValue',
+    name: 'showEndValue',
+    property: 'showEndValue'
+  },{
+    type: 'checkbox',
+    label: 'showStepLine',
+    name: 'showStepLine',
+    property: 'showStepLine'
+  },{
+    type: 'checkbox',
+    label: 'showStepText',
+    name: 'showStepText',
+    property: 'showStepText'
+  },{
+    type: 'checkbox',
+    label: 'showSubStep',
+    name: 'showSubStep',
+    property: 'showSubStep'
   }]
 }
 
