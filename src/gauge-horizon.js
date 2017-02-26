@@ -3,7 +3,7 @@ const NATURE = {
   resizable: true,
   rotatable: true,
   properties : [{
-    type: 'number',
+    type: 'string',
     label: 'value',
     name: 'value',
     property: 'value'
@@ -106,11 +106,12 @@ const NATURE = {
   }]
 }
 
-export default class GaugeHorizon extends scene.Rect {
+var { ValueHolder, RectPath, Shape } = scene
+
+export default class GaugeHorizon extends ValueHolder(RectPath(Shape)) {
 
   _draw(context) {
     var {
-      value = 0,
       startValue,
       endValue,
       step,
@@ -132,6 +133,8 @@ export default class GaugeHorizon extends scene.Rect {
       top,
       left
     } = this.model
+
+    this.animOnValueChange(this.value)
 
     const totalValue = endValue - startValue    // 게이지의 시작과 끝 값의 크기
 
@@ -241,7 +244,7 @@ export default class GaugeHorizon extends scene.Rect {
 
     ////  바늘 그리기  ////
     context.beginPath()
-    let drawingValue = value + (this._anim_alpha || 0)
+    let drawingValue = this.animValue
     drawingValue = Math.max(Math.min(drawingValue, endValue), startValue) // 그려지는 값은 startValue보다 작을 수 없고, endValue보다 클 수 없음.
     let position = (drawingValue - startValue) / totalValue * width
 
@@ -255,31 +258,6 @@ export default class GaugeHorizon extends scene.Rect {
     context.closePath()
 
     context.translate(-left, -top)
-  }
-
-  get controls() {}
-
-  onchange(after, before) {
-    if(!after.hasOwnProperty('value'))
-      return
-
-    var self = this
-    var diff = after.value - before.value
-
-    this._anim_alpha = -diff
-
-    this.animate({
-      step: function(delta) {
-        self._anim_alpha = diff * (delta - 1)
-        self.invalidate()
-      },
-      duration: 1000,
-      delta: 'circ',
-      options: {
-        x: 1
-      },
-      ease: 'out'
-    }).start()
   }
 
   _post_draw(context) {

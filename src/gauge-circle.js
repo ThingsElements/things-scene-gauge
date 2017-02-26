@@ -3,7 +3,7 @@ const NATURE = {
   resizable: true,
   rotatable: true,
   properties : [{
-    type: 'number',
+    type: 'string',
     label: 'value',
     name: 'value',
     property: 'value'
@@ -167,12 +167,12 @@ function drawNeedle(context, rx, ang){
   context.rotate(-ang)
 }
 
+var { ValueHolder, Donut } = scene
 
-export default class GaugeCircle extends scene.Donut {
+export default class GaugeCircle extends ValueHolder(Donut) {
 
   _draw(context) {
     var {
-      value = 0,
       lineWidth = 20,
       startValue,
       endValue,
@@ -197,6 +197,8 @@ export default class GaugeCircle extends scene.Donut {
       stepTextSize,
       cx, cy, rx, ry, ratio
     } = this.model
+
+    this.animOnValueChange(this.value)
 
     const RADIAN = 0.0174533 / Math.PI
     const rxRatio = rx / 100 * ratio  // 원 안에 지워지는 비율을 계산한 rx - ratio의 비율에 따라 크기가 변함
@@ -258,7 +260,7 @@ export default class GaugeCircle extends scene.Donut {
 
     ////  바늘 그리기  ////
     context.beginPath()
-    let drawingValue = value + (this._anim_alpha || 0)
+    let drawingValue = this.animValue
     drawingValue = Math.max(Math.min(drawingValue, endValue), startValue) // 그려지는 값은 startValue보다 작을 수 없고, endValue보다 클 수 없음.
 
     let ang = Math.PI * (circleSize * (drawingValue - startValue) / totalValue + startAngle - 0.5)
@@ -348,29 +350,6 @@ export default class GaugeCircle extends scene.Donut {
     var normy = (y - cy) / (ry * 2 - 0.5);
 
     return (normx * normx + normy * normy) < 0.25;
-  }
-
-  onchange(after, before) {
-    if(!after.hasOwnProperty('value'))
-      return
-
-    var self = this
-    var diff = after.value - before.value
-
-    this._anim_alpha = -diff
-
-    this.animate({
-      step: function(delta) {
-        self._anim_alpha = diff * (delta - 1)
-        self.invalidate()
-      },
-      duration: 1000,
-      delta: 'bounce',
-      // options: {
-      //   x: 5
-      // },
-      ease: 'out'
-    }).start()
   }
 
   _post_draw(context) {
