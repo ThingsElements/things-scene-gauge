@@ -64,7 +64,7 @@ const NATURE = {
     name: 'stepFillStyle',
     property: 'stepFillStyle'
   },{
-    type: 'gradient-color-stops',
+    type: 'solid-color-stops',
     label: 'colorStops',
     name: 'colorStops',
     property: {
