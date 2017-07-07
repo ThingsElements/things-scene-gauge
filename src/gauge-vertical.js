@@ -1,3 +1,6 @@
+/*
+ * Copyright © HatioLab Inc. All rights reserved.
+ */
 const NATURE = {
   mutable: false,
   resizable: true,
@@ -161,6 +164,7 @@ export default class GaugeVertical extends ValueHolder(RectPath(Shape)) {
         let startStepPosition = height * beforeValue / totalValue
         let endStepPosition
 
+        console.log(startStepPosition + (height * value / totalValue));
         if(idx === arr.length - 1 || startStepPosition + (height * value / totalValue))   // 배열의 마지막 값이거나 중간 시작값 + 그려지는 값이 height 를 넘을 경우는 무조건 끝까지 채워주도록 한다
           endStepPosition = height - startStepPosition
         else

@@ -1,3 +1,6 @@
+/*
+ * Copyright © HatioLab Inc. All rights reserved.
+ */
 const NATURE = {
   mutable: false,
   resizable: true,
@@ -215,14 +218,12 @@ export default class GaugeCircle extends ValueHolder(Donut) {
     ////  메인 게이지 원 그리기  ////
     context.beginPath()
 
-    context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, startAngle * Math.PI, endAngle * Math.PI)
+    context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, (startAngle * Math.PI).toFixed(2), (endAngle * Math.PI).toFixed(2))
     this.drawStroke(context)
-
-    context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endAngle * Math.PI, startAngle * Math.PI, true)  // 반대로 그리며 원을 지움.
-    this.drawFill(context)
+    context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, (endAngle * Math.PI).toFixed(2), (startAngle * Math.PI).toFixed(2), true)  // 반대로 그리며 원을 지움.
+    // this.drawFill(context)
 
     context.closePath()
-
 
     ////  스텝별 색 칠하기  ////
     if(colorStops){
@@ -244,11 +245,11 @@ export default class GaugeCircle extends ValueHolder(Donut) {
           return false
 
         context.moveTo(0, 0)
-        context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, startStepAngle, endStepAngle)
+        context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, startStepAngle.toFixed(2), endStepAngle.toFixed(2))
+        console.log('1 : ' , (startStepAngle * Math.PI).toFixed(2));
         context.lineTo(0, 0)
-
-        context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endStepAngle, startStepAngle, true)
-
+        context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endStepAngle.toFixed(2), startStepAngle.toFixed(2), true)
+        console.log('2 : ', (startStepAngle * Math.PI).toFixed(2));
         context.fillStyle = v.color
         context.fill()
 
