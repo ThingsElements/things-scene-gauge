@@ -246,10 +246,10 @@ export default class GaugeCircle extends ValueHolder(Donut) {
 
         context.moveTo(0, 0)
         context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, startStepAngle.toFixed(2), endStepAngle.toFixed(2))
-        console.log('1 : ' , (startStepAngle * Math.PI).toFixed(2));
+        // console.log('1 : ' , (startStepAngle * Math.PI).toFixed(2));
         context.lineTo(0, 0)
         context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endStepAngle.toFixed(2), startStepAngle.toFixed(2), true)
-        console.log('2 : ', (startStepAngle * Math.PI).toFixed(2));
+        // console.log('2 : ', (startStepAngle * Math.PI).toFixed(2));
         context.fillStyle = v.color
         context.fill()
 

@@ -162,7 +162,7 @@ export default class GaugeHorizon extends ValueHolder(RectPath(Shape)) {
         let value = Math.max(Math.min(v.position - startValue, totalValue), 0)   // v.position 범위의 최소값은 0, 최대값은 totalValue가 되야함.
         let startStepPosition = width * beforeValue / totalValue
         let endStepPosition
-        console.log(startStepPosition + (width * value / totalValue));
+        // console.log(startStepPosition + (width * value / totalValue));
         if(idx == arr.length - 1 || startStepPosition + (width * value / totalValue))   // 배열의 마지막 값이거나 중간 시작값 + 그려지는 값이 width 를 넘을 경우는 무조건 끝까지 채워주도록 한다
           endStepPosition = width - startStepPosition
         else
