@@ -12,7 +12,7 @@ const NATURE = {
     property: 'value'
   },{
     type: 'number',
-    label: 'startValue',
+    label: 'start-value',
     name: 'startValue',
     observe: function(startValue) {
       this.parentElement.querySelector('[name=colorStops]').set('property.min', startValue)
@@ -20,7 +20,7 @@ const NATURE = {
     property: 'startValue'
   },{
     type: 'number',
-    label: 'endValue',
+    label: 'end-value',
     name: 'endValue',
     observe: function(endValue) {
       this.parentElement.querySelector('[name=colorStops]').set('property.max', endValue)
@@ -33,42 +33,42 @@ const NATURE = {
     property: 'step'
   },{
     type: 'number',
-    label: 'stepTextSize',
+    label: 'step-text-size',
     name: 'stepTextSize',
     property: 'stepTextSize'
   },{
     type: 'number',
-    label: 'subStep',
+    label: 'sub-step',
     name: 'subStep',
     property: 'subStep'
   },{
     type: 'number',
-    label: 'stepNeedleSize',
+    label: 'step-needle-size',
     name: 'stepNeedleSize',
     property: 'stepNeedleSize'
   },{
     type: 'color',
-    label: 'textFillStyle',
+    label: 'text-fill-style',
     name: 'textFillStyle',
     property: 'textFillStyle'
   },{
     type: 'color',
-    label: 'needleFillStyle',
+    label: 'needle-fill-style',
     name: 'needleFillStyle',
     property: 'needleFillStyle'
   },{
     type: 'number',
-    label: 'needleSize',
+    label: 'needle-size',
     name: 'needleSize',
     property: 'needleSize'
   },{
     type: 'color',
-    label: 'stepFillStyle',
+    label: 'step-fill-style',
     name: 'stepFillStyle',
     property: 'stepFillStyle'
   },{
     type: 'solid-color-stops',
-    label: 'colorStops',
+    label: 'color-stops',
     name: 'colorStops',
     property: {
       min: 0,
@@ -83,27 +83,27 @@ const NATURE = {
     }
   },{
     type: 'checkbox',
-    label: 'showStartValue',
+    label: 'show-start-value',
     name: 'showStartValue',
     property: 'showStartValue'
   },{
     type: 'checkbox',
-    label: 'showEndValue',
+    label: 'show-end-value',
     name: 'showEndValue',
     property: 'showEndValue'
   },{
     type: 'checkbox',
-    label: 'showStepLine',
+    label: 'show-step-line',
     name: 'showStepLine',
     property: 'showStepLine'
   },{
     type: 'checkbox',
-    label: 'showStepText',
+    label: 'show-step-text',
     name: 'showStepText',
     property: 'showStepText'
   },{
     type: 'checkbox',
-    label: 'showSubStep',
+    label: 'show-sub-step',
     name: 'showSubStep',
     property: 'showSubStep'
   }]
