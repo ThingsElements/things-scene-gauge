@@ -1,13 +1,13 @@
 {
   "name": "things-scene-gauge",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "An element providing a starting point for your own reusable Polymer elements.",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "serve": "watchify src/*.js -o things-scene-gauge.js src/index.js & polyserve",
+    "serve": "watchify src/*.js -o things-scene-gauge.js src/index.js & polymer serve",
     "build": "browserify src/index.js -o things-scene-gauge.js && uglifyjs things-scene-gauge.js -m -c -o things-scene-gauge-min.js"
   },
   "repository": {
@@ -34,9 +34,8 @@
     "chai": "^3.4.1",
     "mocha": "^2.3.4",
     "should": "^8.0.2",
-    "uglifyjs": "^2.4.10",
+    "uglify-js": "^3.1.9",
     "watchify": "^3.3.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

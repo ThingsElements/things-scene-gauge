@@ -228,28 +228,25 @@ export default class GaugeCircle extends ValueHolder(Donut) {
     ////  스텝별 색 칠하기  ////
     if(colorStops){
       let beforeValue = 0
+      let endStepAngle = 0
+      context.moveTo(0, 0)
+
       colorStops.forEach(function(v, idx, arr){
         context.beginPath()
 
         let value = Math.max(Math.min(v.position - startValue, totalValue), 0)   // v.position 범위의 최소값은 0, 최대값은 totalValue가 되야함.
-        let startStepAngle = Math.PI * (startAngle + circleSize * beforeValue / totalValue)
-        let endStepAngle
+        let startStepAngle = endStepAngle || Math.PI * (startAngle + circleSize * beforeValue / totalValue)
 
         if(idx === arr.length - 1)   // 마지막값은 무조건 끝까지 채워주도록 한다
           endStepAngle = Math.PI * (startAngle + circleSize)
         else
           endStepAngle = Math.PI * (startAngle + circleSize * value / totalValue)
 
-
         if(beforeValue > totalValue || beforeValue > value)  // 값이 게이지의 최대 값을 넘어가거나 이전 값 보다 현재값이 작으면 다시 그릴 필요 없음
           return false
 
-        context.moveTo(0, 0)
-        context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, startStepAngle.toFixed(2), endStepAngle.toFixed(2))
-        // console.log('1 : ' , (startStepAngle * Math.PI).toFixed(2));
-        context.lineTo(0, 0)
-        context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endStepAngle.toFixed(2), startStepAngle.toFixed(2), true)
-        // console.log('2 : ', (startStepAngle * Math.PI).toFixed(2));
+        context.ellipse(0, 0, Math.abs(rx), Math.abs(ry), 0, startStepAngle, endStepAngle)
+        context.ellipse(0, 0, Math.abs(rxRatio), Math.abs(ryRatio), 0, endStepAngle, startStepAngle, true)
         context.fillStyle = v.color
         context.fill()
 
@@ -257,7 +254,6 @@ export default class GaugeCircle extends ValueHolder(Donut) {
       })
     }
     context.scale(1, ry / rx)
-
 
     ////  바늘 그리기  ////
     context.beginPath()
@@ -270,15 +266,12 @@ export default class GaugeCircle extends ValueHolder(Donut) {
 
     context.fillStyle = needleFillStyle
     context.fill()
-    context.closePath()
-
 
     ////  중앙 원 그리기  ////
     context.beginPath()
     context.ellipse(0, 0, Math.abs(rx) / 15, Math.abs(rx) / 15, 0, 0, 2 * Math.PI)
     context.fillStyle = innerCircleFillStyle
     context.fill()
-
 
     ////  스텝 선 그리기  ////
     context.fillStyle = stepFillStyle
@@ -297,7 +290,6 @@ export default class GaugeCircle extends ValueHolder(Donut) {
       drawStepLine(context, Math.PI * (endAngle + 0.5), rx * 0.8, stepNeedleSize)
     }
 
-
     ////  서브 스탭 그리기  ////
     if(showSubStep){
       let count = totalValue
@@ -312,7 +304,6 @@ export default class GaugeCircle extends ValueHolder(Donut) {
         drawSubStepLine(context, ang, rx * 0.8, stepNeedleSize)
       }
     }
-
 
     ////  스텝 텍스트 그리기  ////
     context.fillStyle = textFillStyle
