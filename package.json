@@ -1,7 +1,7 @@
 {
   "name": "@things-elements/things-scene-gauge",
-  "version": "2.0.10",
-  "description": "An element providing a starting point for your own reusable Polymer elements.",
+  "version": "2.0.11",
+  "description": "Things Scene Gauge Component",
   "main": "src/index.js",
   "things-shell": true,
   "directories": {
@@ -21,11 +21,6 @@
     "url": "https://github.com/ThingsElements/things-scene-gauge/issues"
   },
   "homepage": "https://github.com/ThingsElements/things-scene-gauge#readme",
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
-  },
   "devDependencies": {
     "@hatiolab/things-shell": "^0.2.26"
   },
