@@ -1,6 +1,9 @@
 /*
  * Copyright © HatioLab Inc. All rights reserved.
  */
+
+import { Component, RectPath, ValueHolder, Shape } from '@hatiolab/things-scene'
+
 const NATURE = {
   mutable: false,
   resizable: true,
@@ -108,12 +111,6 @@ const NATURE = {
     property: 'showSubStep'
   }]
 }
-
-var {
-  ValueHolder,
-  RectPath,
-  Shape
-} = scene
 
 export default class GaugeHorizon extends ValueHolder(RectPath(Shape)) {
 
@@ -276,5 +273,5 @@ export default class GaugeHorizon extends ValueHolder(RectPath(Shape)) {
   }
 }
 
-scene.Component.register('gauge-horizon', GaugeHorizon)
+Component.register('gauge-horizon', GaugeHorizon)
 

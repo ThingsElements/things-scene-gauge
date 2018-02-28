@@ -1,6 +1,9 @@
 /*
  * Copyright © HatioLab Inc. All rights reserved.
  */
+
+import { Component, ValueHolder, Donut } from '@hatiolab/things-scene'
+
 const NATURE = {
   mutable: false,
   resizable: true,
@@ -169,8 +172,6 @@ function drawNeedle(context, rx, ang){
 
   context.rotate(-ang)
 }
-
-var { ValueHolder, Donut } = scene
 
 export default class GaugeCircle extends ValueHolder(Donut) {
 
@@ -353,4 +354,4 @@ export default class GaugeCircle extends ValueHolder(Donut) {
   }
 }
 
-scene.Component.register('gauge-circle', GaugeCircle)
+Component.register('gauge-circle', GaugeCircle)

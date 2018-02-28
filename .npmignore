@@ -1,6 +1,5 @@
 DEPLOYMENT.md
 DEVELOPMENT.md
-src/
 dist/
 npm-debug.log
 node_modules
@@ -8,3 +7,7 @@ node_modules
 .editorconfig
 .gitignore
 .git
+boards
+bower_components
+things-scene-gauge.js
+things-scene-gauge-min.js

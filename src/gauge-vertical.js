@@ -1,6 +1,9 @@
 /*
  * Copyright © HatioLab Inc. All rights reserved.
  */
+
+import { Component, RectPath, ValueHolder, Shape } from '@hatiolab/things-scene'
+
 const NATURE = {
   mutable: false,
   resizable: true,
@@ -108,8 +111,6 @@ const NATURE = {
     property: 'showSubStep'
   }]
 }
-
-var { ValueHolder, RectPath, Shape } = scene
 
 export default class GaugeVertical extends ValueHolder(RectPath(Shape)) {
 
@@ -271,4 +272,4 @@ export default class GaugeVertical extends ValueHolder(RectPath(Shape)) {
   }
 }
 
-scene.Component.register('gauge-vertical', GaugeVertical)
+Component.register('gauge-vertical', GaugeVertical)
