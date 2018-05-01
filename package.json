@@ -1,6 +1,6 @@
 {
   "name": "@things-scene/gauge",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Things Scene Gauge Component",
   "main": "src/index.js",
   "things-scene": true,
@@ -8,23 +8,25 @@
     "test": "test"
   },
   "scripts": {
-    "serve": "watchify src/*.js -o things-scene-gauge.js src/index.js & polymer serve",
-    "build": "browserify src/index.js -o things-scene-gauge.js && uglifyjs things-scene-gauge.js -m -c -o things-scene-gauge-min.js"
+    "serve": "things-shell",
+    "serve:dev": "things-shell-dev",
+    "build": "webpack",
+    "prepublish": "webpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ThingsElements/things-scene-gauge.git"
   },
-  "author": "",
+  "author": "heartyoh@hatiolab.com",
   "license": "http://things-scene.hatiolab.com/EULA/",
   "bugs": {
     "url": "https://github.com/ThingsElements/things-scene-gauge/issues"
   },
   "homepage": "https://github.com/ThingsElements/things-scene-gauge#readme",
   "devDependencies": {
-    "@hatiolab/things-shell": "^0.3.0"
+    "@hatiolab/things-shell": "*"
   },
   "dependencies": {
-    "@hatiolab/things-scene": "^2.2.36"
+    "@hatiolab/things-scene": "*"
   }
 }
