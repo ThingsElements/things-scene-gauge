@@ -1,8 +1,10 @@
 {
   "name": "@things-scene/gauge",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Things Scene Gauge Component",
-  "main": "src/index.js",
+  "main": "dist/things-scene-gauge.js",
+  "module": "dist/things-scene-gauge.mjs",
+  "jsnext:main": "dist/things-scene-gauge.mjs",
   "things-scene": true,
   "directories": {
     "test": "test"
@@ -11,8 +13,8 @@
     "serve": "things-shell",
     "serve:dev": "things-shell-dev",
     "build:client": "webpack --config node_modules/@hatiolab/things-shell/webpack.config.js",
-    "build": "webpack",
-    "prepublish": "webpack"
+    "build": "rollup -c",
+    "prepublish": "rollup -c"
   },
   "repository": {
     "type": "git",
