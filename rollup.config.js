@@ -23,7 +23,7 @@ export default [
     external,
     output: [
       {
-        file: pkg.main,
+        file: "dist/things-scene-gauge.js",
         name: "things-scene-gauge",
         format: "umd",
         globals: {
