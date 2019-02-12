@@ -1,6 +1,6 @@
 {
   "name": "@things-scene/gauge",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "Things Scene Gauge Component",
   "main": "src/index.js",
   "module": "dist/things-scene-gauge.mjs",
@@ -30,6 +30,6 @@
     "@hatiolab/things-shell": "*"
   },
   "dependencies": {
-    "@hatiolab/things-scene": "*"
+    "@hatiolab/things-scene": "^2.5.0-rc"
   }
 }
