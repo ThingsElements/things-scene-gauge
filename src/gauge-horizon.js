@@ -1,6 +1,9 @@
 /*
  * Copyright © HatioLab Inc. All rights reserved.
  */
+
+import { Component, RectPath, ValueHolder, Shape } from '@hatiolab/things-scene'
+
 const NATURE = {
   mutable: false,
   resizable: true,
@@ -15,7 +18,7 @@ const NATURE = {
     label: 'start-value',
     name: 'startValue',
     observe: function (startValue) {
-      this.parentElement.querySelector('[name=colorStops]').set('property.min', startValue)
+      this.parentNode.querySelector('[name=colorStops]').set('property.min', startValue)
     },
     property: 'startValue'
   }, {
@@ -23,7 +26,7 @@ const NATURE = {
     label: 'end-value',
     name: 'endValue',
     observe: function (endValue) {
-      this.parentElement.querySelector('[name=colorStops]').set('property.max', endValue)
+      this.parentNode.querySelector('[name=colorStops]').set('property.max', endValue)
     },
     property: 'endValue'
   }, {
@@ -108,12 +111,6 @@ const NATURE = {
     property: 'showSubStep'
   }]
 }
-
-var {
-  ValueHolder,
-  RectPath,
-  Shape
-} = scene
 
 export default class GaugeHorizon extends ValueHolder(RectPath(Shape)) {
 
@@ -276,5 +273,5 @@ export default class GaugeHorizon extends ValueHolder(RectPath(Shape)) {
   }
 }
 
-scene.Component.register('gauge-horizon', GaugeHorizon)
+Component.register('gauge-horizon', GaugeHorizon)
 
