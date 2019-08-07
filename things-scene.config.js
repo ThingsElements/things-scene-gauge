@@ -1,5 +1,3 @@
-import locales from './locales';
-
 import circle from './assets/gauge-circle.png';
 import vertical from './assets/gauge-vertical.png';
 import horizontal from './assets/gauge-horizontal.png';
@@ -137,6 +135,5 @@ var templates = [{
 }];
 
 export default {
-  locales,
   templates
 };
