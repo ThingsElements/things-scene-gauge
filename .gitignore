@@ -8,3 +8,6 @@ dist-client
 bower_components
 *.report.html
 licenses/*.js
+
+package-lock.json
+yarn.lock
